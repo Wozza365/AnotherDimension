@@ -66,24 +66,24 @@ namespace Topdown
         private void LoadMaps()
         {
             Map1 = new TiledMap();
-            Map1.Map = new TmxMap("content/First.tmx");
-            Map1.Tileset = Map1.Map.Tilesets["tilesheet_complete"];
+            Map1.Map = new TmxMap("content/untitled.tmx");
+            Map1.Tileset = Map1.Map.Tilesets["spritesheet_tiles"];
             Map1.TilesetTexture = Content.Load<Texture2D>(Map1.Tileset.Name);
             Map1.TileWidth = Map1.Map.Tilesets[0].TileWidth;
             Map1.TileHeight = Map1.Map.Tilesets[0].TileHeight;
-            Map1.TilesetTilesWide = Map1.Tileset.Image.Width.Value / Map1.TileWidth;
-            Map1.TilesetTilesHeight = Map1.Tileset.Image.Height.Value / Map1.TileHeight;
+            Map1.TilesetTilesWide = Map1.Tileset.Image.Width.Value / (Map1.TileWidth + 9);
+            Map1.TilesetTilesHeight = Map1.Tileset.Image.Height.Value / (Map1.TileHeight + 9);
             GenerateMap(Map1);
         }
 
         private void GenerateMap(TiledMap map)
         {
-            foreach (var obj in map.Map.ObjectGroups["Map"].Objects)
+            foreach (var obj in map.Map.ObjectGroups["Outside"].Objects)
             {
                 List<Vector2> points = new List<Vector2>();
                 foreach (var point in obj.Points)
                 {
-                    points.Add(new Vector2(((float)point.X + (float)obj.X) / 2, ((float)point.Y + (float)obj.Y) / 2));
+                    points.Add(new Vector2(((float)point.X + (float)obj.X) / 1.6f, ((float)point.Y + (float)obj.Y) / 1.6f));
                 }
                 var block = new Polygon(this, points, Color.White, true, new Vector2(1f), 0.7f)
                 {

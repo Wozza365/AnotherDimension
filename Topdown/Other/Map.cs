@@ -22,60 +22,64 @@ namespace Topdown.Other
 
         public void DrawMap(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < Map.Layers[0].Tiles.Count; i++)
+            for (int j = 0; j < Map.Layers.Count; j++)
             {
-                int gid = Map.Layers[0].Tiles[i].Gid;
-
-                if (gid != 0)
+                for (int i = 0; i < Map.Layers[j].Tiles.Count; i++)
                 {
-                    int tileFrame = gid - 1;
-                    int col = tileFrame % TilesetTilesWide;
-                    int row = (int) Math.Floor((double) tileFrame / (double) TilesetTilesWide);
+                    int gid = Map.Layers[j].Tiles[i].Gid;
 
-                    float x = (i % Map.Width) * TileWidth;
-                    float y = (float) Math.Floor(i / (double) Map.Width) * TileHeight;
+                    if (gid != 0)
+                    {
+                        int tileFrame = gid - 1;
+                        int col = tileFrame % TilesetTilesWide;
+                        int row = (int)Math.Floor((double)tileFrame / (double)TilesetTilesWide);
 
-                    Rectangle tilesetRec = new Rectangle(TileWidth * col, TileHeight * row, TileWidth, TileHeight);
+                        float x = (i % Map.Width) * TileWidth;
+                        float y = (float)Math.Floor(i / (double)Map.Width) * TileHeight;
 
-                    spriteBatch.Draw(TilesetTexture, new Rectangle((int) x / 2, (int) y / 2, TileWidth / 2, TileHeight / 2), tilesetRec, Color.White);
+                        Rectangle tilesetRec = new Rectangle((TileWidth + 10) * col, (TileHeight + 10) * row, TileWidth, TileHeight);
+
+                        spriteBatch.Draw(TilesetTexture, new Rectangle((int)(x / 1.6), (int)(y / 1.6), (int)(TileWidth / 1.6), (int)(TileHeight / 1.6)), tilesetRec, Color.White);
+                    }
                 }
             }
-            for (int i = 0; i < Map.Layers[1].Tiles.Count; i++)
-            {
-                int gid = Map.Layers[1].Tiles[i].Gid;
 
-                if (gid != 0)
-                {
-                    int tileFrame = gid - 1;
-                    int col = tileFrame % TilesetTilesWide;
-                    int row = (int)Math.Floor((double)tileFrame / (double)TilesetTilesWide);
+            //for (int i = 0; i < Map.Layers[1].Tiles.Count; i++)
+            //{
+            //    int gid = Map.Layers[1].Tiles[i].Gid;
 
-                    float x = (i % Map.Width) * TileWidth;
-                    float y = (float)Math.Floor(i / (double)Map.Width) * TileHeight;
+            //    if (gid != 0)
+            //    {
+            //        int tileFrame = gid - 1;
+            //        int col = tileFrame % TilesetTilesWide;
+            //        int row = (int)Math.Floor((double)tileFrame / (double)TilesetTilesWide);
 
-                    Rectangle tilesetRec = new Rectangle(TileWidth * col, TileHeight * row, TileWidth, TileHeight);
+            //        float x = (i % Map.Width) * TileWidth;
+            //        float y = (float)Math.Floor(i / (double)Map.Width) * TileHeight;
 
-                    spriteBatch.Draw(TilesetTexture, new Rectangle((int)x / 2, (int)y / 2, TileWidth / 2, TileHeight / 2), tilesetRec, Color.White);
-                }
-            }
-            for (int i = 0; i < Map.Layers[2].Tiles.Count; i++)
-            {
-                int gid = Map.Layers[2].Tiles[i].Gid;
+            //        Rectangle tilesetRec = new Rectangle(TileWidth * col, TileHeight * row, TileWidth, TileHeight);
 
-                if (gid != 0)
-                {
-                    int tileFrame = gid - 1;
-                    int col = tileFrame % TilesetTilesWide;
-                    int row = (int)Math.Floor((double)tileFrame / (double)TilesetTilesWide);
+            //        spriteBatch.Draw(TilesetTexture, new Rectangle((int)x / 2, (int)y / 2, TileWidth / 2, TileHeight / 2), tilesetRec, Color.White);
+            //    }
+            //}
+            //for (int i = 0; i < Map.Layers[2].Tiles.Count; i++)
+            //{
+            //    int gid = Map.Layers[2].Tiles[i].Gid;
 
-                    float x = (i % Map.Width) * TileWidth;
-                    float y = (float)Math.Floor(i / (double)Map.Width) * TileHeight;
+            //    if (gid != 0)
+            //    {
+            //        int tileFrame = gid - 1;
+            //        int col = tileFrame % TilesetTilesWide;
+            //        int row = (int)Math.Floor((double)tileFrame / (double)TilesetTilesWide);
 
-                    Rectangle tilesetRec = new Rectangle(TileWidth * col, TileHeight * row, TileWidth, TileHeight);
+            //        float x = (i % Map.Width) * TileWidth;
+            //        float y = (float)Math.Floor(i / (double)Map.Width) * TileHeight;
 
-                    spriteBatch.Draw(TilesetTexture, new Rectangle((int)x / 2, (int)y / 2, TileWidth / 2, TileHeight / 2), tilesetRec, Color.White);
-                }
-            }
+            //        Rectangle tilesetRec = new Rectangle(TileWidth * col, TileHeight * row, TileWidth, TileHeight);
+
+            //        spriteBatch.Draw(TilesetTexture, new Rectangle((int)x / 2, (int)y / 2, TileWidth / 2, TileHeight / 2), tilesetRec, Color.White);
+            //    }
+            //}
         }
     }
 }

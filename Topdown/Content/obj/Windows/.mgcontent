@@ -4,11 +4,11 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/circle.png</File>
-    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/Font.spritefont</File>
-    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/tilesheet_complete.png</File>
-    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/Controls.png</File>
-    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/spritesheet_players.png</File>
-    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/background0.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/circle.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/Font.spritefont</File>
+    <File>E:/Git/Topdown/Topdown/Content/Controls.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/background0.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/spritesheet_characters.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/spritesheet_tiles.png</File>
   </SourceFiles>
 </SourceFileCollection>
