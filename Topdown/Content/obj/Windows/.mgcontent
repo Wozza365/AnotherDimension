@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/circle.png</File>
+    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/Font.spritefont</File>
+    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/tilesheet_complete.png</File>
+    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/Controls.png</File>
+    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/spritesheet_players.png</File>
+    <File>c:/users/kieran/source/repos/Topdown/Topdown/Content/background0.png</File>
+  </SourceFiles>
+</SourceFileCollection>
