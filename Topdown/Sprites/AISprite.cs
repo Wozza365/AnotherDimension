@@ -13,5 +13,7 @@ namespace Topdown.Sprites
         public Node CurrentNode { get; set; }
         public Node NextNode { get; set; }
         public Node TargetNode { get; set; }
+        public SpriteTypes TargetType { get; set; }
+        public Sprite TargetSprite { get; set; }
     }
 }

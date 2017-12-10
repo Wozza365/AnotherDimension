@@ -37,7 +37,7 @@ namespace Topdown.AI
                 closedList.Add(current);
                 openList.Remove(current);
 
-                foreach (var neighbour in GetNeighbours(current))
+                foreach (var neighbour in GetNeighbours(current).OrderBy(x => Vector2.Distance(targetNode.Coordinate, x.Coordinate)))
                 {
                     if (closedList.Count(x => x.Coordinate == neighbour.Coordinate) == 0)
                     {
@@ -60,7 +60,6 @@ namespace Topdown.AI
             }
             Path path = new Path();
             path.Valid = false;
-            path.Nodes.Reverse();
             return path;
         }
 
@@ -84,19 +83,19 @@ namespace Topdown.AI
             var neighbours = new List<Node>();
             if (MapNodes.Count(x => x.Coordinate == new Vector2(node.Coordinate.X + 1, node.Coordinate.Y)) > 0)
             {
-                neighbours.Add(MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X + 1, node.Coordinate.Y)));
+                neighbours.Add((Node)MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X + 1, node.Coordinate.Y)).Clone());
             }
             if (MapNodes.Count(x => x.Coordinate == new Vector2(node.Coordinate.X - 1, node.Coordinate.Y)) > 0)
             {
-                neighbours.Add(MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X - 1, node.Coordinate.Y)));
+                neighbours.Add((Node)MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X - 1, node.Coordinate.Y)).Clone());
             }
             if (MapNodes.Count(x => x.Coordinate == new Vector2(node.Coordinate.X, node.Coordinate.Y + 1)) > 0)
             {
-                neighbours.Add(MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X, node.Coordinate.Y + 1)));
+                neighbours.Add((Node)MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X, node.Coordinate.Y + 1)).Clone());
             }
             if (MapNodes.Count(x => x.Coordinate == new Vector2(node.Coordinate.X, node.Coordinate.Y - 1)) > 0)
             {
-                neighbours.Add(MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X, node.Coordinate.Y - 1)));
+                neighbours.Add((Node)MapNodes.First(x => x.Coordinate == new Vector2(node.Coordinate.X, node.Coordinate.Y - 1)).Clone());
             }
             neighbours.ForEach(n => n.G += n.Cost);
             neighbours.ForEach(n => n.Parent = new Node()
@@ -121,6 +120,7 @@ namespace Topdown.AI
                 path.Nodes.Add(node);
             }
             path.Valid = true;
+            path.Nodes.Reverse();
             return path;
         }
     }

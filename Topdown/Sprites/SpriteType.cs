@@ -14,6 +14,7 @@ namespace Topdown.Sprites
         Portal = 3,
         Enemy = 4,
         Polygon = 5,
-        Outside = 6
+        Outside = 6,
+        WanderNode = 7
     }
 }

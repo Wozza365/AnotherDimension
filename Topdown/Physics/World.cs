@@ -13,6 +13,11 @@ namespace Topdown.Physics
     {
         public static TopdownGame game;
         public static Vector2 Gravity { get; set; }
+
+        /// <summary>
+        /// Used for friction on floor in top down or air friction in a platformer.
+        /// </summary>
+        public static float SpaceFriction { get; set; }
         private static Dictionary<Tuple<Guid, Guid>, int> _prevCollisions = new Dictionary<Tuple<Guid, Guid>, int>();
         private static List<Tuple<Guid, Guid>> _collisions = new List<Tuple<Guid, Guid>>();
 
@@ -43,8 +48,11 @@ namespace Topdown.Physics
                 body.Velocity.Y = MathHelper.Clamp(body.Velocity.Y, -body.MaxVelocity.Y, body.MaxVelocity.Y);
                 if (body.Enabled && !body.Static)
                 {
+                    body.Velocity.X *= SpaceFriction;
+                    body.Velocity.Y *= SpaceFriction;
                     body.Position.X += body.Velocity.X;
                     body.Position.Y += body.Velocity.Y;
+                    
                     body.UpdateIndices(body.Velocity.X, body.Velocity.Y);
                     body.Rotation += body.AngularVelocity;
                     body.Position.X = MathHelper.Clamp(body.Position.X, TopdownGame.Screen.X + body.HalfWidth, TopdownGame.Screen.Width - body.HalfWidth);

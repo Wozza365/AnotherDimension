@@ -47,6 +47,7 @@
     <Compile Include="Sprites\AISprite.cs" />
     <Compile Include="Sprites\Portal.cs" />
     <Compile Include="Sprites\SpriteType.cs" />
+    <Compile Include="Sprites\WanderNode.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="TopdownGame.cs" />
     <Compile Include="Input\InputClasses.cs" />

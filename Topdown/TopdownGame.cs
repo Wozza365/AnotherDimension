@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Topdown.AI;
 using Topdown.Input;
 using Topdown.Other;
 using Topdown.Physics;
@@ -14,6 +15,7 @@ namespace Topdown
     /// </summary>
     public partial class TopdownGame : Game
     {
+        //Generic properties
         GraphicsDeviceManager _graphics;
         public static SpriteBatch SpriteBatch { get; set; }
 
@@ -35,7 +37,10 @@ namespace Topdown
         public static List<Sprite> Sprites { get; set; }
         public static SpriteFont Font { get; set; }
 
+
+        //Game specific properties
         public static Hero Hero { get; set; }
+        public static List<WanderNode> WanderNodes { get; set; } = new List<WanderNode>();
 
         public TopdownGame()
         {

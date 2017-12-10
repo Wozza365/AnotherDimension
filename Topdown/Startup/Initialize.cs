@@ -22,14 +22,18 @@ namespace Topdown
             _graphics.PreferredBackBufferHeight = Screen.Height;
             _graphics.ApplyChanges();
 
-            World.Gravity = new Vector2(0, 0);
+            World.Gravity = new Vector2(0);
+            World.SpaceFriction = 0.8f;
             Sprites = new List<Sprite>();
-            Hero = new Hero(this, new Vector2(32, 375), new Vector2(32, 32), new Vector2(0.2f, 0.2f), 1)
+            Hero = new Hero(this, new Vector2(32, 415), new Vector2(32, 32), new Vector2(0.2f, 0.2f), 1)
             {
                 TextureRect = new Rectangle(0, 1088, 128, 192),
                 Visible = true
             };
             Sprites.Add(Hero);
+
+            Enemy e = new Enemy(this, new Vector2(400, 780), new Vector2(24), new Vector2(0.2f), 1);
+            Sprites.Add(e);
             //Hero.CreatePath();
 
             //Path = AStar.GenerateAStarPath(Hero, Sprites.First(x => x.SpriteType == SpriteTypes.Portal));

@@ -121,10 +121,18 @@ namespace Topdown
                 var portal = new Portal(new Vector2((float)obj.X/1.6f, (float)obj.Y/1.6f));
                 Sprites.Add(portal);
             }
+            foreach (var obj in map.Map.ObjectGroups["WanderNodes"].Objects)
+            {
+                WanderNodes.Add(new WanderNode(this, new Vector2((float) obj.X/ 40, (float) obj.Y/ 40), new Vector2((float) obj.Width/40, (float) obj.Height/ 40)));
+            }
 
             AStar.MapNodes = Map1.PathTiles;
             Path = AStar.GenerateAStarPath(Hero, Sprites.First(x => x.SpriteType == SpriteTypes.Portal));
             Hero.CreatePath();
+            foreach (Enemy enemy in Sprites.Where(x => x.SpriteType == SpriteTypes.Enemy))
+            {
+                enemy.CreatePath();
+            }
             int j2 = 0;
             //while (j2 < Path.Nodes.Count - 1)
             //{
