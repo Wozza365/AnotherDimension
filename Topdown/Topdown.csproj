@@ -41,7 +41,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="AI\AStar.cs" />
+    <Compile Include="AI\Path.cs" />
+    <Compile Include="AI\Tile.cs" />
+    <Compile Include="Sprites\AISprite.cs" />
+    <Compile Include="Sprites\Portal.cs" />
+    <Compile Include="Sprites\SpriteType.cs" />
+    <Compile Include="Target.cs" />
+    <Compile Include="TopdownGame.cs" />
     <Compile Include="Input\InputClasses.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Other\Debug.cs" />

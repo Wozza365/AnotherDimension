@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Topdown.Physics;
+using Topdown.Sprites;
 
 namespace Topdown
 {
@@ -15,6 +16,7 @@ namespace Topdown
         public bool Visible { get; set; }
         public Guid Guid { get; set; }
         public bool OnGround { get; set; }
+        public SpriteTypes SpriteType { get; set; }
 
         public List<Action> OnUpdate = new List<Action>();
         

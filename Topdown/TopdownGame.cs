@@ -65,6 +65,7 @@ namespace Topdown
             SpriteBatch.Draw(Background, Screen, Color.Gray);
             ActiveMap.DrawMap(SpriteBatch);
             Sprites.ForEach(x => x.Draw());
+            //Map1.PathTiles.ForEach(x => SpriteBatch.Draw(ControlImage, x, Color.White));
             Debug.Update(SpriteBatch, Font, WhitePixel);
             SpriteBatch.End();
             base.Draw(gameTime);

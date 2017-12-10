@@ -43,16 +43,17 @@ namespace Topdown.Physics
                 body.Velocity.Y = MathHelper.Clamp(body.Velocity.Y, -body.MaxVelocity.Y, body.MaxVelocity.Y);
                 if (body.Enabled && !body.Static)
                 {
-                    //body.Position = new Vector2(body.Position.X + body.Velocity.X, body.Position.Y + body.Velocity.Y);
                     body.Position.X += body.Velocity.X;
                     body.Position.Y += body.Velocity.Y;
                     body.UpdateIndices(body.Velocity.X, body.Velocity.Y);
                     body.Rotation += body.AngularVelocity;
+                    body.Position.X = MathHelper.Clamp(body.Position.X, TopdownGame.Screen.X + body.HalfWidth, TopdownGame.Screen.Width - body.HalfWidth);
+                    body.Position.Y = MathHelper.Clamp(body.Position.Y, TopdownGame.Screen.Y + body.HalfHeight, TopdownGame.Screen.Height - body.HalfHeight);
                 }
             }
         }
 
-        public static bool Intersects(Body body1, Body body2, ref Vector2 result, ref float distance)
+        public static bool Intersects(Body body1, Body body2, ref Vector2 result, ref float distance, bool fullTest = false)
         {
             if (body1.Equals(body2))
             {
@@ -90,7 +91,7 @@ namespace Topdown.Physics
                 switch (body2.Shape)
                 {
                     case Shape.Polygon:
-                        return PolygonPolygonIntersects(body1, body2, ref result, ref distance);
+                        return PolygonPolygonIntersects(body1, body2, ref result, ref distance, fullTest);
                     case Shape.Circle:
                         return CirclePolygonIntersects(body2, body1, ref result, ref distance);
                 }
@@ -99,13 +100,13 @@ namespace Topdown.Physics
             return false;
         }
 
-        private static bool PolygonPolygonIntersects(Body body1, Body body2, ref Vector2 result, ref float distance)
+        private static bool PolygonPolygonIntersects(Body body1, Body body2, ref Vector2 result, ref float distance, bool fullTest = false)
         {
-            if (body1.Right < body2.Left ||
+            if ((body1.Right < body2.Left ||
                 body1.Left > body2.Right ||
                 body1.Top > body2.Bottom ||
                 body1.Bottom < body2.Top ||
-                body2.Static && body1.Static)
+                body2.Static && body1.Static) && !fullTest)
             {
                 return false;
             }
@@ -145,7 +146,7 @@ namespace Topdown.Physics
                     {
                         result = A + AB * distance;
                     }
-                    if (Vector2.Distance(body1.Centre, result) < Vector2.Distance(body1.Centre, indice) && IsInPolygon(body2, indice))
+                    if (Vector2.Distance(body1.Centre, result) < Vector2.Distance(body1.Centre, indice) && (fullTest || IsInPolygon(body2, indice)))
                     {
                         //SeparatePolygonPolygon(body1, body2, result, Vector2.Distance(body1.Centre, indice));
                         return true;
