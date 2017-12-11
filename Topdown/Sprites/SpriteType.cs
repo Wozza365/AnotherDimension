@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Topdown.Sprites
+﻿namespace Topdown.Sprites
 {
     public enum SpriteTypes
     {
@@ -15,6 +9,7 @@ namespace Topdown.Sprites
         Enemy = 4,
         Polygon = 5,
         Outside = 6,
-        WanderNode = 7
+        WanderNode = 7,
+        Bullet = 8
     }
 }

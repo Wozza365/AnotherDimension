@@ -12,6 +12,7 @@ namespace Topdown.Sprites
     public class Enemy : AISprite
     {
         public static Dictionary<SpriteTypes, int> Targets = new Dictionary<SpriteTypes, int>();
+        public bool AtEnemy { get; set; } = false;
 
         public Enemy(TopdownGame game, Vector2 position, Vector2 size, Vector2 bounce, float friction, float gravityMultiplier = 1)
         {
@@ -52,7 +53,7 @@ namespace Topdown.Sprites
             targets = targets.OrderBy(x => (1 / x.Weight) * x.Distance).ToList();
             if (CurrentPath != null)
                 CurrentPath.Nodes = new List<Node>();
-            while (CurrentPath == null || CurrentPath.Nodes.Count == 0)
+            if (CurrentPath == null || CurrentPath.Nodes.Count <= 1)
             {
                 if (targets.All(x => x.SpriteType != SpriteTypes.Hero))
                 {
@@ -63,11 +64,16 @@ namespace Topdown.Sprites
                 CurrentPath = AStar.GenerateAStarPath(this, targets.First().Sprite);
             }
 
+            if (CurrentPath.Nodes.Count == 0)
+            {
+                return; //at player
+            }
+
             TargetType = targets.First().Sprite.SpriteType;
             TargetSprite = targets.First().Sprite;
 
             CurrentNode = CurrentPath.Nodes[0];
-            NextNode = CurrentPath.Nodes[1];
+            NextNode = CurrentPath.Nodes[CurrentPath.Nodes.Count > 1 ? 1 : 0];
             TargetNode = CurrentPath.Nodes.Last();
 
             for (int i = 0; i < CurrentPath.Nodes.Count; i++)
@@ -115,10 +121,17 @@ namespace Topdown.Sprites
 
         public override void Control()
         {
-            var direction = NextNode.Coordinate - CurrentNode.Coordinate;
-            direction.Normalize();
-            direction *= 2;
-            Body.Velocity = direction;
+            if (!AtEnemy)
+            {
+                var direction = NextNode.Coordinate - CurrentNode.Coordinate;
+                if (direction.X != 0 && direction.Y != 0) direction.Normalize();
+                direction *= 2;
+                Body.Velocity = direction;
+            }
+            else
+            {
+                Body.Velocity = Vector2.Zero;
+            }
 
         }
 
@@ -130,22 +143,30 @@ namespace Topdown.Sprites
                 return;
             }
             CurrentNode.Coordinate = new Vector2((int)(Body.Position.X / 40), (int)(Body.Position.Y / 40));
-            if (/*CurrentPath.Nodes[0] == CurrentNode && */CurrentPath.Nodes.Count == 1)
+            if ((CurrentPath.Nodes.Count == 1 || CurrentPath.Nodes.Count == 0) && TargetType == SpriteTypes.Hero)
+            {
+                AtEnemy = true;
+            }
+            else if (CurrentPath.Nodes.Count == 1)
             {
                 CreatePath();
             }
             else if (CurrentPath.Nodes[1].Coordinate == CurrentNode.Coordinate/* && CurrentPath.Nodes.Count > 1*/)
             {
                 CurrentPath.Nodes.RemoveAt(0);
-                if (CurrentPath.Nodes.Count > 2) NextNode = CurrentPath.Nodes[1];
+                if (CurrentPath.Nodes.Count >= 2) NextNode = CurrentPath.Nodes[1];
             }
             else if (CurrentPath.Nodes.Count > 0)
             {
-
+                AtEnemy = false;
             }
             else if (CurrentPath.Nodes[0].Coordinate != CurrentNode.Coordinate)
             {
                 CreatePath();
+            }
+            else
+            {
+                AtEnemy = false;
             }
         }
 
@@ -200,7 +221,16 @@ namespace Topdown.Sprites
 
         public override void Collisions()
         {
-
+            Vector2 result = new Vector2();
+            float distance = 0;
+            foreach (var s in TopdownGame.Sprites)
+            {
+                if (s.SpriteType == SpriteTypes.Bullet)
+                {
+                    if (World.Intersects(Body, s.Body, ref result, ref distance))
+                        World.Separate(Body, s.Body, ref result, ref distance);
+                }
+            }
         }
     }
 }

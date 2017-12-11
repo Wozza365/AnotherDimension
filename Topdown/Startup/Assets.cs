@@ -61,8 +61,7 @@ namespace Topdown
             Background = Content.Load<Texture2D>("background0");
             Circle.DefaultTexture = Content.Load<Texture2D>("circle");
 
-            WhitePixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            WhitePixel.SetData(new[] { Color.White });
+
         }
 
         private void LoadFonts()
@@ -92,7 +91,7 @@ namespace Topdown
                 {
                     points.Add(new Vector2(((float)point.X + (float)obj.X) / 1.6f, ((float)point.Y + (float)obj.Y) / 1.6f));
                 }
-                var block = new Polygon(this, points, Color.White, true, new Vector2(1f), 0.7f)
+                var block = new MapPiece(this, points, Color.White, true, new Vector2(1f), 0.7f)
                 {
                     SpriteType = SpriteTypes.Outside
                 };

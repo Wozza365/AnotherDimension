@@ -54,12 +54,14 @@ namespace Topdown
             InputManager.CheckInputs();
             World.ApplyGravity(Sprites, frameTime);
             World.ApplyVelocity(Sprites, frameTime);
-            Sprites.ForEach(s => s.Control());
-            Sprites.ForEach(s => s.Collisions());
-            Sprites.ForEach(s => s.Update());
+            for (int i = 0; i < Sprites.Count; i++)
+            {
+                Sprites[i].Control();
+                Sprites[i].Collisions();
+                Sprites[i].Update();
+            }
+            
             World.ClearCollisions();
-
-
             base.Update(gameTime);
         }
 
@@ -70,7 +72,7 @@ namespace Topdown
             SpriteBatch.Draw(Background, Screen, Color.Gray);
             ActiveMap.DrawMap(SpriteBatch);
             Sprites.ForEach(x => x.Draw());
-            //Map1.PathTiles.ForEach(x => SpriteBatch.Draw(ControlImage, x, Color.White));
+            UserInterface.UpdateInterface();
             Debug.Update(SpriteBatch, Font, WhitePixel);
             SpriteBatch.End();
             base.Draw(gameTime);

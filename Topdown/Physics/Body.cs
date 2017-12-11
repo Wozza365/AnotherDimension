@@ -136,6 +136,7 @@ namespace Topdown.Physics
         public Guid Guid { get; set; }
         public bool Enabled { get; set; }
         public Shape Shape { get; set; }
+        public bool Collisions { get; set; } = true;
 
         /// <summary>
         /// Acts as half width for rectangle and radius for circle

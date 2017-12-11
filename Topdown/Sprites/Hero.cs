@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Topdown.AI;
 using Topdown.Input;
@@ -22,8 +23,12 @@ namespace Topdown.Sprites
         public Node PreviousNode { get; set; }
         public Node NextNode { get; set; }
         public Node TargetNode { get; set; }
+        public List<Weapon> CurrentWeapons { get; set; } = new List<Weapon>();
+        public int SelectedWeapon;
+        public DateTime NextBullet { get; set; }
+        public float Health { get; set; } = 100;
         
-        private Rectangle DrawRect => new Rectangle((int)(Body.Position.X - Body.Width/2), (int)(Body.Position.Y - Body.Height/2), (int)Body.Width, (int)Body.Height);
+        private Rectangle DrawRect => new Rectangle((int)(Body.Position.X), (int)(Body.Position.Y), (int)Body.Width, (int)Body.Height);
 
         public int TilePositionX => (int)Body.Centre.X / Game.Map1.TileWidth;
         public int TilePositionY => (int)Body.Centre.Y / Game.Map1.TileHeight;
@@ -34,6 +39,12 @@ namespace Topdown.Sprites
             Guid = new Guid();
             SpriteType = SpriteTypes.Hero;
             FaceDirection = Vector2.UnitX;
+            CurrentWeapons.Add(new Weapon()
+            {
+                BulletConfig = TopdownGame.BulletConfigs[WeaponTypes.Pistol],
+                Type = WeaponTypes.Pistol,
+                Ammo = int.MaxValue
+            });
             List<Vector2> indices = new List<Vector2>()
             {
                 new Vector2(position.X, position.Y),
@@ -284,14 +295,40 @@ namespace Topdown.Sprites
             {
                 Body.Velocity.Y--;
             }
-            //if (InputManager.Pressed(Keys.Space) && !Jumped)
-            //{
-            //    Body.Velocity.Y = 10;
-            //}
-            //if (InputManager.Pressed(Keys.S) && Jumped)
-            //{
-            //    Body.Velocity.Y = 15;
-            //}
+            if (InputManager.Held(Keys.Up))
+            {
+                FaceDirection = -Vector2.UnitY;
+            }
+            if (InputManager.Held(Keys.Down))
+            {
+                FaceDirection = Vector2.UnitY;
+            }
+            if (InputManager.Held(Keys.Left))
+            {
+                FaceDirection = -Vector2.UnitX;
+            }
+            if (InputManager.Held(Keys.Right))
+            {
+                FaceDirection = Vector2.UnitX;
+            }
+            if (InputManager.Held(Keys.E) && NextBullet <= DateTime.Now && CurrentWeapons[SelectedWeapon].Ammo > 0)
+            {
+                TopdownGame.Sprites.Add(new Bullet(Body.Position, new Vector2(16), FaceDirection, CurrentWeapons[SelectedWeapon].BulletConfig));
+                NextBullet = DateTime.Now + CurrentWeapons[SelectedWeapon].BulletConfig.FireDelay;
+                CurrentWeapons[SelectedWeapon].Ammo--;
+            }
+            if (InputManager.Held(Keys.D1))
+            {
+                SelectedWeapon = 0;
+            }
+            if (InputManager.Held(Keys.D2) && CurrentWeapons.Count > 1)
+            {
+                SelectedWeapon = 1;
+            }
+            if (InputManager.Held(Keys.D3) && CurrentWeapons.Count > 2)
+            {
+                SelectedWeapon = 2;
+            }
         }
 
         public override void Update()
@@ -301,7 +338,7 @@ namespace Topdown.Sprites
 
             if (CurrentNode.Coordinate != PreviousNode.Coordinate)
             {
-                foreach (Enemy enemy in TopdownGame.Sprites.Where(x => x.SpriteType == SpriteTypes.Enemy))
+                foreach (Enemy enemy in TopdownGame.Sprites.Where(x => x.SpriteType == SpriteTypes.Enemy && Vector2.Distance(Body.Position, x.Body.Position) < 500))
                 {
                     enemy.CreatePath();
                 }
@@ -321,19 +358,14 @@ namespace Topdown.Sprites
             {
                 CreatePath();
             }
-
-            //bool visible = true;
-            //while ()
             
-
-
             Jumped = !(Math.Abs(Body.Velocity.Y) <= 0.4f);
             OnGround = Math.Abs(Body.Velocity.Y) <= 0.4f;
         }
 
         public override void Draw()
         {
-            TopdownGame.SpriteBatch.Draw(Texture, DrawRect, TextureRect, Color.White);
+            TopdownGame.SpriteBatch.Draw(Texture, DrawRect, TextureRect, Color.White, (float)Math.Atan2(FaceDirection.X, -FaceDirection.Y), new Vector2(TextureRect.Width/2 + Body.HalfWidth, TextureRect.Height/2 + Body.HalfHeight), SpriteEffects.None, 0);
             TopdownGame.SpriteBatch.Draw(Circle.DefaultTexture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.Yellow);
         }
 

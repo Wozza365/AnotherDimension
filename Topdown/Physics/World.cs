@@ -63,7 +63,7 @@ namespace Topdown.Physics
 
         public static bool Intersects(Body body1, Body body2, ref Vector2 result, ref float distance, bool fullTest = false)
         {
-            if (body1.Equals(body2))
+            if (body1.Equals(body2) || !body1.Collisions || !body2.Collisions)
             {
                 return false; //don't want to collide with ourselves
             }

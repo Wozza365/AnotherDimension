@@ -15,13 +15,33 @@ namespace Topdown.Sprites
         Bullet = 2
     }
 
+    public enum WeaponTypes
+    {
+        RPG = 0,
+        SMG = 1,
+        Pistol = 2
+    }
+
     public struct BulletConfig
     {
+        public BulletTypes BulletType;
         public float MaxVelocity;
         public Texture2D Texture;
         public Rectangle DrawRectangle;
         public float InitialDamage;
         public float Bounce;
+        public TimeSpan FireDelay;
+
+        public BulletConfig(BulletTypes bulletType, float maxVelocity, Texture2D texture, Rectangle drawRectangle, float initialDamage, float bounce, TimeSpan fireDelay)
+        {
+            BulletType = bulletType;
+            MaxVelocity = maxVelocity;
+            Texture = texture;
+            DrawRectangle = drawRectangle;
+            InitialDamage = initialDamage;
+            Bounce = bounce;
+            FireDelay = fireDelay;
+        }
     }
     
     public class Bullet : Sprite
@@ -31,9 +51,13 @@ namespace Topdown.Sprites
         {
             direction.Normalize();
             Texture = config.Texture;
+            TextureRect = config.Texture.Bounds;
+            DrawRectangle = config.DrawRectangle;
+            SpriteType = SpriteTypes.Bullet; 
             
             Body = new Body(this)
             {
+                MaxVelocity = new Vector2(config.MaxVelocity),
                 Velocity = direction * config.MaxVelocity,
                 Position = position,
                 Width = size.X,
@@ -41,7 +65,9 @@ namespace Topdown.Sprites
                 Radius = size.X/2,
                 Direction = direction,
                 Bounce = new Vector2(config.Bounce),
-                Shape = Shape.Circle
+                Shape = Shape.Circle,
+                Static = false,
+                Enabled = true
             };
         }
 
@@ -57,12 +83,13 @@ namespace Topdown.Sprites
 
         public override void Draw()
         {
-            
+            DrawRectangle = new Rectangle((int)Body.Position.X, (int)Body.Position.Y, DrawRectangle.Width, DrawRectangle.Height);
+            TopdownGame.SpriteBatch.Draw(Texture, DrawRectangle, TextureRect, Color.White/* (float)Math.Atan2(Body.Direction.X, -Body.Direction.Y), new Vector2(TextureRect.Width / 2 + Body.HalfWidth, TextureRect.Height / 2 + Body.HalfHeight), SpriteEffects.None, 0*/);
+
         }
 
         public override void Collisions()
         {
-            
         }
     }
 }
