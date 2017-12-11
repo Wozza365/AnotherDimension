@@ -45,6 +45,7 @@
     <Compile Include="AI\Path.cs" />
     <Compile Include="AI\Tile.cs" />
     <Compile Include="Sprites\AISprite.cs" />
+    <Compile Include="Sprites\Bullet.cs" />
     <Compile Include="Sprites\Portal.cs" />
     <Compile Include="Sprites\SpriteType.cs" />
     <Compile Include="Sprites\WanderNode.cs" />

@@ -311,7 +311,7 @@ namespace Topdown.Physics
 
         private static bool CircleCircleIntersects(Body body1, Body body2)
         {
-            return Vector2.Distance(body1.Centre, body2.Centre) > body1.Radius + body2.Radius;
+            return Vector2.Distance(body1.Centre, body2.Centre) < body1.Radius + body2.Radius;
         }
 
         public static void Separate(Body body1, Body body2, ref Vector2 result, ref float distance)

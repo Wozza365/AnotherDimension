@@ -10,11 +10,15 @@ namespace Topdown.Sprites
 {
     public class Portal : Sprite
     {
-        public Portal(Vector2 position)
+        public Portal(Vector2 position, Vector2 size)
         {
             Body = new Body(this)
             {
-                Position = position
+                Position = position,
+                Width = size.X,
+                Height = size.Y,
+                Shape = Shape.Circle,
+                Radius = size.X/2
             };
             SpriteType = SpriteTypes.Portal;
         }

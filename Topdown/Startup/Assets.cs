@@ -118,12 +118,12 @@ namespace Topdown
             }
             foreach (var obj in map.Map.ObjectGroups["Targets"].Objects)
             {
-                var portal = new Portal(new Vector2((float)obj.X/1.6f, (float)obj.Y/1.6f));
+                var portal = new Portal(new Vector2((float)obj.X/1.6f, (float)obj.Y/1.6f), new Vector2((float)(obj.Width/1.6f), (float)(obj.Height/1.6f)));
                 Sprites.Add(portal);
             }
             foreach (var obj in map.Map.ObjectGroups["WanderNodes"].Objects)
             {
-                WanderNodes.Add(new WanderNode(this, new Vector2((float) obj.X/ 40, (float) obj.Y/ 40), new Vector2((float) obj.Width/40, (float) obj.Height/ 40)));
+                WanderNodes.Add(new WanderNode(this, new Vector2((float)(obj.X/ 1.6), (float)(obj.Y/ 1.6)), new Vector2((float)(obj.Width/1.6), (float) (obj.Height/ 1.6))));
             }
 
             AStar.MapNodes = Map1.PathTiles;

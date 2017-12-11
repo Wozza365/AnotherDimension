@@ -15,6 +15,7 @@ namespace Topdown.Sprites
     public class Hero : Sprite
     {
         public bool Jumped { get; set; }
+        public Vector2 FaceDirection;
 
         public Path CurrentPath { get; set; }
         public Node CurrentNode { get; set; }
@@ -32,6 +33,7 @@ namespace Topdown.Sprites
             Game = game;
             Guid = new Guid();
             SpriteType = SpriteTypes.Hero;
+            FaceDirection = Vector2.UnitX;
             List<Vector2> indices = new List<Vector2>()
             {
                 new Vector2(position.X, position.Y),
@@ -342,8 +344,13 @@ namespace Topdown.Sprites
             float distance = 0;
             foreach (var s in TopdownGame.Sprites)
             {
+                
                 if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
                 {
+                    if (s.SpriteType == SpriteTypes.Portal)
+                    {
+                        i++;
+                    }
                     i = 0;
                     //World.Separate(Body, s.Body, ref result, ref distance);
                 }

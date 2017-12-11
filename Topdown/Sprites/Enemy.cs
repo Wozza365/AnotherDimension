@@ -12,7 +12,7 @@ namespace Topdown.Sprites
     public class Enemy : AISprite
     {
         public static Dictionary<SpriteTypes, int> Targets = new Dictionary<SpriteTypes, int>();
-        
+
         public Enemy(TopdownGame game, Vector2 position, Vector2 size, Vector2 bounce, float friction, float gravityMultiplier = 1)
         {
             Game = game;
@@ -23,7 +23,7 @@ namespace Topdown.Sprites
                 MaxVelocity = new Vector2(5f, 5f),
                 Enabled = true,
                 Position = position,
-                Radius = size.Y/2,
+                Radius = size.Y / 2,
                 Game = game,
                 Gravity = World.Gravity * gravityMultiplier,
                 Bounce = bounce,
@@ -50,13 +50,21 @@ namespace Topdown.Sprites
                 Sprite = x
             }).ToList();
             targets = targets.OrderBy(x => (1 / x.Weight) * x.Distance).ToList();
-            if (targets.All(x => x.SpriteType != SpriteTypes.Hero))
+            if (CurrentPath != null)
+                CurrentPath.Nodes = new List<Node>();
+            while (CurrentPath == null || CurrentPath.Nodes.Count == 0)
             {
-                Random r = new Random();
-                targets = targets.OrderBy(x => r.Next()).ToList();
+                if (targets.All(x => x.SpriteType != SpriteTypes.Hero))
+                {
+                    Random r = new Random();
+                    targets = targets.OrderBy(x => r.Next()).ToList();
+                }
+
+                CurrentPath = AStar.GenerateAStarPath(this, targets.First().Sprite);
             }
-            CurrentPath = AStar.GenerateAStarPath(this, targets.First().Sprite);
+
             TargetType = targets.First().Sprite.SpriteType;
+            TargetSprite = targets.First().Sprite;
 
             CurrentNode = CurrentPath.Nodes[0];
             NextNode = CurrentPath.Nodes[1];
@@ -104,7 +112,7 @@ namespace Topdown.Sprites
                 }
             }
         }
-        
+
         public override void Control()
         {
             var direction = NextNode.Coordinate - CurrentNode.Coordinate;
@@ -119,12 +127,16 @@ namespace Topdown.Sprites
             if (TargetType == SpriteTypes.Hero && Vector2.Distance(Body.Position, TargetSprite.Body.Position) > 500)
             {
                 CreatePath();
+                return;
             }
             CurrentNode.Coordinate = new Vector2((int)(Body.Position.X / 40), (int)(Body.Position.Y / 40));
-            if (CurrentPath.Nodes[1].Coordinate == CurrentNode.Coordinate/* && CurrentPath.Nodes.Count > 1*/)
+            if (/*CurrentPath.Nodes[0] == CurrentNode && */CurrentPath.Nodes.Count == 1)
+            {
+                CreatePath();
+            }
+            else if (CurrentPath.Nodes[1].Coordinate == CurrentNode.Coordinate/* && CurrentPath.Nodes.Count > 1*/)
             {
                 CurrentPath.Nodes.RemoveAt(0);
-                //CurrentNode = CurrentPath.Nodes[0];
                 if (CurrentPath.Nodes.Count > 2) NextNode = CurrentPath.Nodes[1];
             }
             else if (CurrentPath.Nodes.Count > 0)
@@ -188,7 +200,7 @@ namespace Topdown.Sprites
 
         public override void Collisions()
         {
-            
+
         }
     }
 }
