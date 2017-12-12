@@ -17,6 +17,7 @@ namespace Topdown
         public static Dictionary<PowerupType, PowerupConfig> PowerupConfigs { get; set; } = new Dictionary<PowerupType, PowerupConfig>();
         protected override void Initialize()
         {
+            LoadTextures();
             GameState = GameState.LOADING;
 
             Screen = new Rectangle(0, 0, 1280, 800);
@@ -27,22 +28,23 @@ namespace Topdown
             _graphics.ApplyChanges();
 
             World.Gravity = new Vector2(0);
-            World.SpaceFriction = 0.95f;
+            World.SpaceFriction = 0.8f;
             Sprites = new List<Sprite>();
             SceneController.Game = this;
-            SceneController.DropRate = 100;
+            SceneController.DropRate = 200;
 
             WhitePixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             WhitePixel.SetData(new[] { Color.White });
 
-            BulletConfig rpg = new BulletConfig(BulletTypes.Rocket, 50f, WhitePixel, new Rectangle(0, 0, 10, 10), 500, 0, new TimeSpan(0, 0, 0, 2));
-            BulletConfig smg = new BulletConfig(BulletTypes.Bullet, 500, WhitePixel, new Rectangle(0, 0, 10, 10), 50, 0, new TimeSpan(0, 0, 0, 0, 200));
-            BulletConfig pistol = new BulletConfig(BulletTypes.Bullet, 100, WhitePixel, new Rectangle(0, 0, 20, 20), 60, 0, new TimeSpan(0, 0, 0, 0, 400));
+            BulletConfig rpg = new BulletConfig(BulletTypes.Rocket, 10, Rocket, new Rectangle(0, 0, 20, 20), 500, 0, new TimeSpan(0, 0, 0, 1));
+            BulletConfig smg = new BulletConfig(BulletTypes.Bullet, 40, Bullet, new Rectangle(0, 0, 20, 20), 50, 0, new TimeSpan(0, 0, 0, 0, 50));
+            BulletConfig pistol = new BulletConfig(BulletTypes.Bullet, 40, Bullet, new Rectangle(0, 0, 20, 20), 60, 0, new TimeSpan(0, 0, 0, 0, 200));
 
-            PowerupConfig rpgP = new PowerupConfig(PowerupType.RPG, WhitePixel, new Rectangle(0, 0, 40, 40), 20, 1);
-            PowerupConfig smgP = new PowerupConfig(PowerupType.SMG, WhitePixel, new Rectangle(0, 0, 40, 40), 500, 1);
-            PowerupConfig ammoP = new PowerupConfig(PowerupType.Ammo, WhitePixel, new Rectangle(0, 0, 40, 40), 100, 1);
-            PowerupConfig speedP = new PowerupConfig(PowerupType.Speed, WhitePixel, new Rectangle(0, 0, 40, 40), 0, 2);
+            PowerupConfig rpgP = new PowerupConfig(PowerupType.RPG, RPG, new Rectangle(8, 8, 32, 32), 20, 1, new TimeSpan(0,0,0,6), 0);
+            PowerupConfig smgP = new PowerupConfig(PowerupType.SMG, SMG, new Rectangle(8, 8, 32, 32), 500, 1, new TimeSpan(0, 0, 0, 5), 0);
+            PowerupConfig ammoP = new PowerupConfig(PowerupType.Ammo, Pistol, new Rectangle(8, 8, 32, 32), 100, 1, new TimeSpan(0, 0, 0, 8), 0);
+            PowerupConfig speedP = new PowerupConfig(PowerupType.Speed, Speed, new Rectangle(8, 8, 32, 32), 0, 1, new TimeSpan(0, 0, 0, 6), 0);
+            PowerupConfig healthP = new PowerupConfig(PowerupType.Health, Health, new Rectangle(8, 8, 32, 32), 0, 1, new TimeSpan(0, 0, 0, 5), 50);
 
             BulletConfigs.Add(WeaponTypes.RPG, rpg);
             BulletConfigs.Add(WeaponTypes.SMG, smg);
@@ -52,6 +54,7 @@ namespace Topdown
             PowerupConfigs.Add(PowerupType.SMG, smgP);
             PowerupConfigs.Add(PowerupType.Ammo, ammoP);
             PowerupConfigs.Add(PowerupType.Speed, speedP);
+            PowerupConfigs.Add(PowerupType.Health, healthP);
 
             Hero = new Hero(this, new Vector2(32, 415), new Vector2(32, 32), new Vector2(0.2f, 0.2f), 1)
             {

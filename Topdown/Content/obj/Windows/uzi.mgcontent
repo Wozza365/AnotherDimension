@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>E:/Git/Topdown/Topdown/Content/spritesheet_tiles.png</SourceFile>
-  <SourceTime>2017-12-10T12:26:13.9563036+00:00</SourceTime>
-  <DestFile>E:/Git/Topdown/Topdown/Content/bin/Windows/spritesheet_tiles.xnb</DestFile>
-  <DestTime>2017-12-12T10:04:02.5005755+00:00</DestTime>
+  <SourceFile>E:/Git/Topdown/Topdown/Content/uzi.png</SourceFile>
+  <SourceTime>2017-12-11T10:29:17.6698806+00:00</SourceTime>
+  <DestFile>E:/Git/Topdown/Topdown/Content/bin/Windows/uzi.xnb</DestFile>
+  <DestTime>2017-12-12T10:38:53.9309076+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

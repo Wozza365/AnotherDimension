@@ -22,20 +22,24 @@ namespace Topdown
         public Texture2D SpriteSheet1 { get; set; }
         public Texture2D Characters { get; set; }
         public Texture2D Background { get; set; }
+        public static Texture2D Pistol { get; set; }
+        public static Texture2D SMG { get; set; }
+        public static Texture2D RPG { get; set; }
+        public static Texture2D Rocket { get; set; }
+        public static Texture2D Bullet { get; set; }
+        public static Texture2D Health { get; set; }
+        public static Texture2D Speed { get; set; }
 
         public static TiledMap ActiveMap { get; set; }
         public TiledMap Map1 { get; set; }
 
-        public float TileScreenWidth
-        {
-            get { return Screen.Width / 32; }
-        }
+        public float TileScreenWidth => Screen.Width / 32;
 
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            LoadTextures();
+            //LoadTextures();
             LoadMaps();
             AddTexturesToSprites();
             LoadFonts();
@@ -59,9 +63,14 @@ namespace Topdown
             ControlImage = Content.Load<Texture2D>("Controls");
             Characters = Content.Load<Texture2D>("spritesheet_players");
             Background = Content.Load<Texture2D>("background0");
+            Pistol = Content.Load<Texture2D>("revolver");
+            SMG = Content.Load<Texture2D>("uzi");
+            RPG = Content.Load<Texture2D>("panzerfaust");
+            Rocket = Content.Load<Texture2D>("rocket");
+            Bullet = Content.Load<Texture2D>("bulleta");
+            Health = Content.Load<Texture2D>("health");
+            Speed = Content.Load<Texture2D>("speed");
             Circle.DefaultTexture = Content.Load<Texture2D>("circle");
-
-
         }
 
         private void LoadFonts()

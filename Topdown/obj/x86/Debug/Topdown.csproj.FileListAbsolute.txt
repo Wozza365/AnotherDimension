@@ -64,3 +64,10 @@ E:\Git\Topdown\Topdown\obj\x86\Debug\Topdown.csproj.CoreCompileInputs.cache
 E:\Git\Topdown\Topdown\obj\x86\Debug\Topdown.exe
 E:\Git\Topdown\Topdown\obj\x86\Debug\Topdown.pdb
 E:\Git\Topdown\Topdown\obj\x86\Debug\Topdown.csprojResolveAssemblyReference.cache
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\panzerfaust.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\revolver.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\uzi.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\bulleta.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\rocket.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\health.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\speed.xnb

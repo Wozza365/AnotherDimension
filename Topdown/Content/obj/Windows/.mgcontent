@@ -10,5 +10,12 @@
     <File>E:/Git/Topdown/Topdown/Content/background0.png</File>
     <File>E:/Git/Topdown/Topdown/Content/spritesheet_characters.png</File>
     <File>E:/Git/Topdown/Topdown/Content/spritesheet_tiles.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/panzerfaust.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/revolver.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/uzi.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/bulleta.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/rocket.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/health.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/speed.png</File>
   </SourceFiles>
 </SourceFileCollection>

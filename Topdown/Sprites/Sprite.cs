@@ -19,6 +19,7 @@ namespace Topdown
         public SpriteTypes SpriteType { get; set; }
 
         public List<Action> OnUpdate = new List<Action>();
+        public float SpaceFriction { get; set; } = 1;
         
 
         public abstract void Control();

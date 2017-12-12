@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>E:/Git/Topdown/Topdown/Content/spritesheet_characters.png</SourceFile>
-  <SourceTime>2016-01-28T11:59:24.7398307+00:00</SourceTime>
+  <SourceTime>2017-12-10T12:26:13.9543038+00:00</SourceTime>
   <DestFile>E:/Git/Topdown/Topdown/Content/bin/Windows/spritesheet_characters.xnb</DestFile>
-  <DestTime>2017-12-11T20:31:11.8073962+00:00</DestTime>
+  <DestTime>2017-12-12T10:04:02.1525609+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

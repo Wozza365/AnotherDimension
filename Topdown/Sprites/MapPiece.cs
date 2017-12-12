@@ -38,7 +38,11 @@ namespace Topdown.Sprites
             float distance = 0;
             foreach (var s in TopdownGame.Sprites)
             {
+                if (s.Body.Static)
+                    continue;
                 if (s.SpriteType == SpriteTypes.Bullet)
+                    continue;
+                if (s.SpriteType == SpriteTypes.Powerup)
                     continue;
 
                 if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
