@@ -38,6 +38,7 @@ namespace Topdown.Sprites
 
         public override void Collisions()
         {
+            
         }
     }
 }

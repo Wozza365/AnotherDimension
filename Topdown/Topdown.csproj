@@ -44,14 +44,16 @@
     <Compile Include="AI\AStar.cs" />
     <Compile Include="AI\Path.cs" />
     <Compile Include="AI\Tile.cs" />
+    <Compile Include="Misc\SceneController.cs" />
     <Compile Include="Sprites\AISprite.cs" />
     <Compile Include="Sprites\Bullet.cs" />
     <Compile Include="Sprites\MapPiece.cs" />
     <Compile Include="Sprites\Portal.cs" />
+    <Compile Include="Sprites\Powerup.cs" />
     <Compile Include="Sprites\SpriteType.cs" />
     <Compile Include="Sprites\WanderNode.cs" />
     <Compile Include="Sprites\Weapon.cs" />
-    <Compile Include="Target.cs" />
+    <Compile Include="Misc\Target.cs" />
     <Compile Include="TopdownGame.cs" />
     <Compile Include="Input\InputClasses.cs" />
     <Compile Include="Input\InputManager.cs" />

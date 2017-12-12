@@ -3,7 +3,8 @@
     public enum GameState
     {
         LOADING = 0,
-        PLAYING = 1,
-        ENDGAME = 2
+        PLAYINGTOPDOWN = 1,
+        PLAYINGPLATFORMER = 2,
+        ENDGAME = 3
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Topdown.Physics;
@@ -13,13 +9,6 @@ namespace Topdown.Sprites
     {
         Rocket = 1,
         Bullet = 2
-    }
-
-    public enum WeaponTypes
-    {
-        RPG = 0,
-        SMG = 1,
-        Pistol = 2
     }
 
     public struct BulletConfig
@@ -47,13 +36,15 @@ namespace Topdown.Sprites
     public class Bullet : Sprite
     {
         public Rectangle DrawRectangle { get; set; }
+        public BulletConfig BulletConfig { get; set; }
         public Bullet(Vector2 position, Vector2 size, Vector2 direction, BulletConfig config)
         {
             direction.Normalize();
             Texture = config.Texture;
             TextureRect = config.Texture.Bounds;
             DrawRectangle = config.DrawRectangle;
-            SpriteType = SpriteTypes.Bullet; 
+            SpriteType = SpriteTypes.Bullet;
+            BulletConfig = config;
             
             Body = new Body(this)
             {
@@ -78,7 +69,10 @@ namespace Topdown.Sprites
 
         public override void Update()
         {
-            
+            if (Body.Velocity.Length() < 0.5f)
+            {
+                TopdownGame.Sprites.Remove(this);
+            }
         }
 
         public override void Draw()
@@ -90,6 +84,21 @@ namespace Topdown.Sprites
 
         public override void Collisions()
         {
+            Vector2 result = new Vector2();
+            float distance = 0;
+            foreach (var s in TopdownGame.Sprites)
+            {
+                if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
+                {
+                    if (s.SpriteType == SpriteTypes.Enemy)
+                    {
+                        var speed = Body.Velocity.Length();
+                        ((Enemy) s).Health -= (int)(BulletConfig.InitialDamage * (speed / Body.MaxVelocity.X));
+                        Body.Velocity = Vector2.Zero;
+                        //TopdownGame.Sprites.Remove(this);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Topdown.AI;
 using Topdown.Input;
+using Topdown.Misc;
 using Topdown.Other;
 using Topdown.Physics;
 using Topdown.Sprites;
@@ -60,7 +59,7 @@ namespace Topdown
                 Sprites[i].Collisions();
                 Sprites[i].Update();
             }
-            
+            SceneController.UpdateCurrentScene();
             World.ClearCollisions();
             base.Update(gameTime);
         }

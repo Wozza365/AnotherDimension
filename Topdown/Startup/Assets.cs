@@ -23,7 +23,7 @@ namespace Topdown
         public Texture2D Characters { get; set; }
         public Texture2D Background { get; set; }
 
-        public TiledMap ActiveMap { get; set; }
+        public static TiledMap ActiveMap { get; set; }
         public TiledMap Map1 { get; set; }
 
         public float TileScreenWidth
@@ -41,7 +41,7 @@ namespace Topdown
             LoadFonts();
 
             ActiveMap = Map1;
-            GameState = GameState.PLAYING;
+            GameState = GameState.PLAYINGTOPDOWN;
         }
 
         protected override void UnloadContent()
@@ -132,7 +132,7 @@ namespace Topdown
             {
                 enemy.CreatePath();
             }
-            int j2 = 0;
+            //int j2 = 0;
             //while (j2 < Path.Nodes.Count - 1)
             //{
             //    for (int i = j2 + 2; i < Path.Nodes.Count;i++)

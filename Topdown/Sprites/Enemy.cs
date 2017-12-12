@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Topdown.AI;
+using Topdown.Misc;
 using Topdown.Other;
 using Topdown.Physics;
 using Topdown.Sprites.Shapes;
@@ -13,12 +14,14 @@ namespace Topdown.Sprites
     {
         public static Dictionary<SpriteTypes, int> Targets = new Dictionary<SpriteTypes, int>();
         public bool AtEnemy { get; set; } = false;
+        public int Health { get; set; }
 
         public Enemy(TopdownGame game, Vector2 position, Vector2 size, Vector2 bounce, float friction, float gravityMultiplier = 1)
         {
             Game = game;
             Guid = new Guid();
             SpriteType = SpriteTypes.Enemy;
+            Health = 100;
             Body = new Body(this)
             {
                 MaxVelocity = new Vector2(5f, 5f),
@@ -76,47 +79,47 @@ namespace Topdown.Sprites
             NextNode = CurrentPath.Nodes[CurrentPath.Nodes.Count > 1 ? 1 : 0];
             TargetNode = CurrentPath.Nodes.Last();
 
-            for (int i = 0; i < CurrentPath.Nodes.Count; i++)
-            {
-                Vector2 start;
-                Vector2 end;
-                if (i == 0)
-                {
-                    continue;
-                    start = new Vector2(CurrentPath.Nodes[i].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i].Coordinate.Y * 40 + (40 / 2));
-                    end = new Vector2(CurrentPath.Nodes[CurrentPath.Nodes.Count - 1].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[CurrentPath.Nodes.Count - 1].Coordinate.Y * 40 + (40 / 2));
-                }
-                start = new Vector2(CurrentPath.Nodes[i].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i].Coordinate.Y * 40 + (40 / 2));
-                end = new Vector2(CurrentPath.Nodes[i - 1].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i - 1].Coordinate.Y * 40 + (40 / 2));
+            //for (int i = 0; i < CurrentPath.Nodes.Count; i++)
+            //{
+            //    Vector2 start;
+            //    Vector2 end;
+            //    if (i == 0)
+            //    {
+            //        continue;
+            //        start = new Vector2(CurrentPath.Nodes[i].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i].Coordinate.Y * 40 + (40 / 2));
+            //        end = new Vector2(CurrentPath.Nodes[CurrentPath.Nodes.Count - 1].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[CurrentPath.Nodes.Count - 1].Coordinate.Y * 40 + (40 / 2));
+            //    }
+            //    start = new Vector2(CurrentPath.Nodes[i].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i].Coordinate.Y * 40 + (40 / 2));
+            //    end = new Vector2(CurrentPath.Nodes[i - 1].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i - 1].Coordinate.Y * 40 + (40 / 2));
 
-                List<Vector2> points = new List<Vector2>();
-                var direction = start - end;
-                var angle = Math.Atan2(direction.Y, direction.X);
-                angle += Math.PI / 2;
-                points.Add(new Vector2(end.X + ((float)Math.Cos(angle) * 10), end.Y + ((float)Math.Sin(angle) * 10)));
-                angle += Math.PI;
-                points.Add(new Vector2(end.X + ((float)Math.Cos(angle) * 10), end.Y + ((float)Math.Sin(angle) * 10)));
+            //    List<Vector2> points = new List<Vector2>();
+            //    var direction = start - end;
+            //    var angle = Math.Atan2(direction.Y, direction.X);
+            //    angle += Math.PI / 2;
+            //    points.Add(new Vector2(end.X + ((float)Math.Cos(angle) * 10), end.Y + ((float)Math.Sin(angle) * 10)));
+            //    angle += Math.PI;
+            //    points.Add(new Vector2(end.X + ((float)Math.Cos(angle) * 10), end.Y + ((float)Math.Sin(angle) * 10)));
 
-                direction *= -1;
-                angle = Math.Atan2(direction.Y, direction.X);
-                angle += Math.PI / 2;
-                points.Add(new Vector2(start.X + ((float)Math.Cos(angle) * 10), start.Y + ((float)Math.Sin(angle) * 10)));
-                angle += Math.PI;
-                points.Add(new Vector2(start.X + ((float)Math.Cos(angle) * 10), start.Y + ((float)Math.Sin(angle) * 10)));
+            //    direction *= -1;
+            //    angle = Math.Atan2(direction.Y, direction.X);
+            //    angle += Math.PI / 2;
+            //    points.Add(new Vector2(start.X + ((float)Math.Cos(angle) * 10), start.Y + ((float)Math.Sin(angle) * 10)));
+            //    angle += Math.PI;
+            //    points.Add(new Vector2(start.X + ((float)Math.Cos(angle) * 10), start.Y + ((float)Math.Sin(angle) * 10)));
 
-                var poly = new Polygon(Game, points, Color.White, true, Vector2.Zero);
-                for (int k = 0; k < points.Count; k++)
-                {
-                    if (k == 0)
-                    {
-                        Debug.AddLine(points[0], points[points.Count - 1], 1);
-                    }
-                    else
-                    {
-                        Debug.AddLine(points[k], points[k - 1], 1);
-                    }
-                }
-            }
+            //    var poly = new Polygon(Game, points, Color.White, true, Vector2.Zero);
+            //    for (int k = 0; k < points.Count; k++)
+            //    {
+            //        if (k == 0)
+            //        {
+            //            Debug.AddLine(points[0], points[points.Count - 1], 1);
+            //        }
+            //        else
+            //        {
+            //            Debug.AddLine(points[k], points[k - 1], 1);
+            //        }
+            //    }
+            //}
         }
 
         public override void Control()
@@ -138,6 +141,11 @@ namespace Topdown.Sprites
         public override void Update()
         {
             if (TargetType == SpriteTypes.Hero && Vector2.Distance(Body.Position, TargetSprite.Body.Position) > 500)
+            {
+                CreatePath();
+                return;
+            }
+            else if (TargetType == SpriteTypes.Hero && Vector2.Distance(Body.Position, TargetSprite.Body.Position) < 500)
             {
                 CreatePath();
                 return;
@@ -172,65 +180,21 @@ namespace Topdown.Sprites
 
         public override void Draw()
         {
-            for (int i = 0; i < CurrentPath.Nodes.Count; i++)
-            {
-                Vector2 start;
-                Vector2 end;
-                if (i == 0)
-                {
-                    continue;
-                    start = new Vector2(CurrentPath.Nodes[i].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i].Coordinate.Y * 40 + (40 / 2));
-                    end = new Vector2(CurrentPath.Nodes[CurrentPath.Nodes.Count - 1].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[CurrentPath.Nodes.Count - 1].Coordinate.Y * 40 + (40 / 2));
-                }
-                else
-                {
-                    start = new Vector2(CurrentPath.Nodes[i].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i].Coordinate.Y * 40 + (40 / 2));
-                    end = new Vector2(CurrentPath.Nodes[i - 1].Coordinate.X * 40 + (40 / 2), CurrentPath.Nodes[i - 1].Coordinate.Y * 40 + (40 / 2));
-                }
-
-                List<Vector2> points = new List<Vector2>();
-                var direction = start - end;
-                var angle = Math.Atan2(direction.Y, direction.X);
-                angle += Math.PI / 2;
-                points.Add(new Vector2(end.X + ((float)Math.Cos(angle) * 10), end.Y + ((float)Math.Sin(angle) * 10)));
-                angle += Math.PI;
-                points.Add(new Vector2(end.X + ((float)Math.Cos(angle) * 10), end.Y + ((float)Math.Sin(angle) * 10)));
-
-                direction *= -1;
-                angle = Math.Atan2(direction.Y, direction.X);
-                angle += Math.PI / 2;
-                points.Add(new Vector2(start.X + ((float)Math.Cos(angle) * 10), start.Y + ((float)Math.Sin(angle) * 10)));
-                angle += Math.PI;
-                points.Add(new Vector2(start.X + ((float)Math.Cos(angle) * 10), start.Y + ((float)Math.Sin(angle) * 10)));
-
-                var poly = new Polygon(Game, points, Color.White, true, Vector2.Zero);
-                for (int k = 0; k < points.Count; k++)
-                {
-                    if (k == 0)
-                    {
-                        Debug.AddLine(points[0], points[points.Count - 1], 0);
-                    }
-                    else
-                    {
-                        Debug.AddLine(points[k], points[k - 1], 0);
-                    }
-                }
-            }
             TopdownGame.SpriteBatch.Draw(Circle.DefaultTexture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.Yellow);
         }
 
         public override void Collisions()
         {
-            Vector2 result = new Vector2();
-            float distance = 0;
-            foreach (var s in TopdownGame.Sprites)
-            {
-                if (s.SpriteType == SpriteTypes.Bullet)
-                {
-                    if (World.Intersects(Body, s.Body, ref result, ref distance))
-                        World.Separate(Body, s.Body, ref result, ref distance);
-                }
-            }
+            //Vector2 result = new Vector2();
+            //float distance = 0;
+            //foreach (var s in TopdownGame.Sprites)
+            //{
+            //    if (s.SpriteType == SpriteTypes.Bullet)
+            //    {
+            //        if (World.Intersects(Body, s.Body, ref result, ref distance))
+            //            World.Separate(Body, s.Body, ref result, ref distance);
+            //    }
+            //}
         }
     }
 }

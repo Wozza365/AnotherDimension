@@ -10,6 +10,7 @@
         Polygon = 5,
         Outside = 6,
         WanderNode = 7,
-        Bullet = 8
+        Bullet = 8,
+        Powerup = 9
     }
 }

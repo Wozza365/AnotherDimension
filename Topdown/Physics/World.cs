@@ -57,6 +57,14 @@ namespace Topdown.Physics
                     body.Rotation += body.AngularVelocity;
                     body.Position.X = MathHelper.Clamp(body.Position.X, TopdownGame.Screen.X + body.HalfWidth, TopdownGame.Screen.Width - body.HalfWidth);
                     body.Position.Y = MathHelper.Clamp(body.Position.Y, TopdownGame.Screen.Y + body.HalfHeight, TopdownGame.Screen.Height - body.HalfHeight);
+                    if (body.Position.X == TopdownGame.Screen.X + body.HalfWidth || body.Position.X == TopdownGame.Screen.Width - body.HalfWidth)
+                    {
+                        body.Velocity.X = 0;
+                    }
+                    if (body.Position.Y == TopdownGame.Screen.Y + body.HalfHeight || body.Position.Y == TopdownGame.Screen.Height - body.HalfHeight)
+                    {
+                        body.Velocity.Y = 0;
+                    }
                 }
             }
         }
