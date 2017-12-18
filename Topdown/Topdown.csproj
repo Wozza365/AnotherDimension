@@ -43,9 +43,10 @@
   <ItemGroup>
     <Compile Include="AI\AStar.cs" />
     <Compile Include="AI\Path.cs" />
-    <Compile Include="AI\Tile.cs" />
+    <Compile Include="AI\Node.cs" />
     <Compile Include="Misc\SceneController.cs" />
     <Compile Include="Sprites\AISprite.cs" />
+    <Compile Include="Sprites\Box.cs" />
     <Compile Include="Sprites\Bullet.cs" />
     <Compile Include="Sprites\MapPiece.cs" />
     <Compile Include="Sprites\Portal.cs" />

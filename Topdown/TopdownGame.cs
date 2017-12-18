@@ -55,6 +55,7 @@ namespace Topdown
             World.ApplyVelocity(Sprites, frameTime);
             for (int i = 0; i < Sprites.Count; i++)
             {
+               
                 Sprites[i].Control();
                 Sprites[i].Collisions();
                 Sprites[i].Update();

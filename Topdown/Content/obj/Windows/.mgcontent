@@ -17,5 +17,8 @@
     <File>E:/Git/Topdown/Topdown/Content/rocket.png</File>
     <File>E:/Git/Topdown/Topdown/Content/health.png</File>
     <File>E:/Git/Topdown/Topdown/Content/speed.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/player.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/zombie.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/box.png</File>
   </SourceFiles>
 </SourceFileCollection>

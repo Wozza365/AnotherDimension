@@ -1,5 +1,6 @@
 ﻿namespace Topdown.Sprites
 {
+    //Identifier for types of sprites
     public enum SpriteTypes
     {
         Cicle = 0,
@@ -11,6 +12,7 @@
         Outside = 6,
         WanderNode = 7,
         Bullet = 8,
-        Powerup = 9
+        Powerup = 9,
+        Box = 10
     }
 }

@@ -28,15 +28,16 @@ namespace Topdown
             _graphics.ApplyChanges();
 
             World.Gravity = new Vector2(0);
-            World.SpaceFriction = 0.8f;
+            World.SpaceFriction = 0.95f;
             Sprites = new List<Sprite>();
             SceneController.Game = this;
             SceneController.DropRate = 200;
+            SceneController.EnemyRate = 20;
 
             WhitePixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             WhitePixel.SetData(new[] { Color.White });
 
-            BulletConfig rpg = new BulletConfig(BulletTypes.Rocket, 10, Rocket, new Rectangle(0, 0, 20, 20), 500, 0, new TimeSpan(0, 0, 0, 1));
+            BulletConfig rpg = new BulletConfig(BulletTypes.Rocket, 25, Rocket, new Rectangle(0, 0, 20, 20), 500, 0, new TimeSpan(0, 0, 0, 1));
             BulletConfig smg = new BulletConfig(BulletTypes.Bullet, 40, Bullet, new Rectangle(0, 0, 20, 20), 50, 0, new TimeSpan(0, 0, 0, 0, 50));
             BulletConfig pistol = new BulletConfig(BulletTypes.Bullet, 40, Bullet, new Rectangle(0, 0, 20, 20), 60, 0, new TimeSpan(0, 0, 0, 0, 200));
 
@@ -63,8 +64,13 @@ namespace Topdown
             };
             Sprites.Add(Hero);
 
-            Enemy e = new Enemy(this, new Vector2(400, 780), new Vector2(40), new Vector2(0.2f), 1);
-            Sprites.Add(e);
+            Enemy e = new Enemy(this, Zombie, Zombie.Bounds, new Vector2(400, 780), new Vector2(30), new Vector2(0.1f), 1),
+                  e2 = new Enemy(this, Zombie, Zombie.Bounds, new Vector2(500, 780), new Vector2(30), new Vector2(0.1f), 1),
+                  e3 = new Enemy(this, Zombie, Zombie.Bounds, new Vector2(800, 780), new Vector2(30), new Vector2(0.1f), 1);
+            Sprites.AddRange(new List<Enemy>() {e/*,e2,e3*/});
+
+            Box b = new Box(this, BoxTex, new Vector2(30), 20, new Vector2(0.2f), 0.2f);
+            Sprites.Add(b);
 
             base.Initialize();
         }

@@ -29,6 +29,9 @@ namespace Topdown
         public static Texture2D Bullet { get; set; }
         public static Texture2D Health { get; set; }
         public static Texture2D Speed { get; set; }
+        public static Texture2D Zombie { get; set; }
+        public static Texture2D Player { get; set; }
+        public static Texture2D BoxTex { get; set; }
 
         public static TiledMap ActiveMap { get; set; }
         public TiledMap Map1 { get; set; }
@@ -70,6 +73,10 @@ namespace Topdown
             Bullet = Content.Load<Texture2D>("bulleta");
             Health = Content.Load<Texture2D>("health");
             Speed = Content.Load<Texture2D>("speed");
+            Zombie = Content.Load<Texture2D>("zombie");
+            Player = Content.Load<Texture2D>("player");
+            BoxTex = Content.Load<Texture2D>("box");
+
             Circle.DefaultTexture = Content.Load<Texture2D>("circle");
         }
 

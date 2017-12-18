@@ -45,18 +45,18 @@ namespace Topdown.Sprites
                 Type = WeaponTypes.Pistol,
                 Ammo = int.MaxValue
             });
-            CurrentWeapons.Add(new Weapon()
-            {
-                BulletConfig = TopdownGame.BulletConfigs[WeaponTypes.SMG],
-                Type = WeaponTypes.SMG,
-                Ammo = int.MaxValue
-            });
-            CurrentWeapons.Add(new Weapon()
-            {
-                BulletConfig = TopdownGame.BulletConfigs[WeaponTypes.RPG],
-                Type = WeaponTypes.RPG,
-                Ammo = int.MaxValue
-            });
+            //CurrentWeapons.Add(new Weapon()
+            //{
+            //    BulletConfig = TopdownGame.BulletConfigs[WeaponTypes.SMG],
+            //    Type = WeaponTypes.SMG,
+            //    Ammo = int.MaxValue
+            //});
+            //CurrentWeapons.Add(new Weapon()
+            //{
+            //    BulletConfig = TopdownGame.BulletConfigs[WeaponTypes.RPG],
+            //    Type = WeaponTypes.RPG,
+            //    Ammo = int.MaxValue
+            //});
             List<Vector2> indices = new List<Vector2>()
             {
                 new Vector2(position.X, position.Y),
@@ -68,7 +68,7 @@ namespace Topdown.Sprites
             {
                 MaxVelocity = new Vector2(3f, 3f),
                 Enabled = true,
-                Position = position,//new Vector2(position.X + (size.X/2), position.Y + (size.Y/2)),
+                Position = position,
                 Radius = size.Y / 2,
                 Game = game,
                 Gravity = World.Gravity * gravityMultiplier,
@@ -76,7 +76,6 @@ namespace Topdown.Sprites
                 Friction = friction,
                 Static = false,
                 Shape = Shape.Circle,
-                //Indices = indices,
                 Mass = 50
             };
         }
@@ -108,7 +107,6 @@ namespace Topdown.Sprites
 
         public override void Control()
         {
-            //Debug.AddLog(OnGround.ToString());
             if (InputManager.Held(Keys.A))
             {
                 Body.Velocity.X--;
@@ -166,6 +164,7 @@ namespace Topdown.Sprites
             PreviousNode.Coordinate = new Vector2(CurrentNode.Coordinate.X, CurrentNode.Coordinate.Y);
             CurrentNode.Coordinate = new Vector2((int)(Body.Position.X / 40), (int)(Body.Position.Y / 40));
 
+            //our enemies may wish to update their path if we are now within range
             if (CurrentNode.Coordinate != PreviousNode.Coordinate)
             {
                 foreach (Enemy enemy in TopdownGame.Sprites.Where(x => x.SpriteType == SpriteTypes.Enemy && Vector2.Distance(Body.Position, x.Body.Position) < 500))
@@ -203,14 +202,16 @@ namespace Topdown.Sprites
         {
             Vector2 result = new Vector2();
             float distance = 0;
+            //Loop through each sprite
             for (var i = 0; i < TopdownGame.Sprites.Count; i++)
             {
                 var s = TopdownGame.Sprites[i];
                 if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
                 {
+                    //Customize our behaviour based on different sprite types
                     if (s.SpriteType == SpriteTypes.Portal)
                     {
-                        //i++;
+                        //TODO add functionality for portal
                     }
                     if (s.SpriteType == SpriteTypes.Powerup)
                     {
@@ -252,6 +253,10 @@ namespace Topdown.Sprites
                             }
                         }
                         TopdownGame.Sprites.Remove(s);
+                    }
+                    if (s.SpriteType == SpriteTypes.Enemy)
+                    {
+                        Health -= 2;
                     }
                 }
             }

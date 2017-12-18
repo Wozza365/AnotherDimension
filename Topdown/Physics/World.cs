@@ -48,8 +48,8 @@ namespace Topdown.Physics
                 body.Velocity.Y = MathHelper.Clamp(body.Velocity.Y, -body.MaxVelocity.Y, body.MaxVelocity.Y);
                 if (body.Enabled && !body.Static)
                 {
-                    body.Velocity.X *= SpaceFriction;
-                    body.Velocity.Y *= SpaceFriction;
+                    body.Velocity.X *= SpaceFriction * body.Sprite.SpaceFriction;
+                    body.Velocity.Y *= SpaceFriction * body.Sprite.SpaceFriction;
                     body.Position.X += body.Velocity.X;
                     body.Position.Y += body.Velocity.Y;
                     
@@ -389,10 +389,10 @@ namespace Topdown.Physics
 
             var body1Minbody2 = body1.Mass - body2.Mass;
             var body2Minbody1 = body2.Mass - body1.Mass;
-            body1.Velocity.X = (body1.Velocity.X * body1Minbody2 + (2 * body2.Mass * body2.Velocity.X)) / (body1.Mass + body2.Mass);
-            body1.Velocity.Y = (body1.Velocity.Y * body1Minbody2 + (2 * body2.Mass * body2.Velocity.Y)) / (body1.Mass + body2.Mass);
-            body2.Velocity.X = -(body2.Velocity.X * body2Minbody1 + (2 * body1.Mass * body1.Velocity.X)) / (body2.Mass + body1.Mass);
-            body2.Velocity.Y = -(body2.Velocity.Y * body2Minbody1 + (2 * body1.Mass * body1.Velocity.Y)) / (body2.Mass + body1.Mass);
+            body1.Velocity.X = (body1.Velocity.X * body1Minbody2 + (2 * body2.Mass * body2.Velocity.X)) * body1.Bounce.X / (body1.Mass + body2.Mass);
+            body1.Velocity.Y = (body1.Velocity.Y * body1Minbody2 + (2 * body2.Mass * body2.Velocity.Y)) * body1.Bounce.Y / (body1.Mass + body2.Mass);
+            body2.Velocity.X = -(body2.Velocity.X * body2Minbody1 + (2 * body1.Mass * body1.Velocity.X)) * body2.Bounce.X / (body2.Mass + body1.Mass);
+            body2.Velocity.Y = -(body2.Velocity.Y * body2Minbody1 + (2 * body1.Mass * body1.Velocity.Y)) * body2.Bounce.Y / (body2.Mass + body1.Mass);
         }
 
         private static void SeparateCircleRect(Body body1, Body body2)
@@ -769,7 +769,7 @@ namespace Topdown.Physics
             angleVector3.Normalize();
 
             var speed = _active.Velocity.Length();
-            _active.AngularVelocity += (_active.Centre.X * _active.Velocity.Y - _active.Centre.Y * _active.Velocity.X) / (_active.Centre.X.Sqrd() + _active.Centre.Y.Sqrd());
+            _active.AngularVelocity += (_active.Centre.X * _active.Velocity.Y - _active.Centre.Y * _active.Velocity.X) / _active.Centre.LengthSquared();
 
             _active.Velocity.Y = angleVector3.Y * speed * _active.Bounce.Y * (_collisionsCount + 1);// * (negY ? -1 : 1);
             _active.Velocity.X = angleVector3.X * speed * _active.Bounce.X * (_collisionsCount + 1);//* (negX ? -1 : 1);

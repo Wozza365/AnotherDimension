@@ -71,3 +71,6 @@ E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\bulleta.xnb
 E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\rocket.xnb
 E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\health.xnb
 E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\speed.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\player.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\zombie.xnb
+E:\Git\Topdown\Topdown\bin\Windows\x86\Debug\Content\box.xnb
