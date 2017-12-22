@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Topdown.Physics;
+using Game.Physics;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    /// <summary>
+    /// Types of powerups
+    /// </summary>
     public enum PowerupType
     {
         Ammo = 0,
@@ -15,6 +17,10 @@ namespace Topdown.Sprites
         Health = 4
     }
 
+    /// <summary>
+    /// Configs for powerups stats
+    /// Would make it easier to load in from a file
+    /// </summary>
     public struct PowerupConfig
     {
         public PowerupType PowerupType { get; set; }
@@ -37,13 +43,14 @@ namespace Topdown.Sprites
         }
     }
     
+    //A powerup on the map
     public class Powerup : Sprite
     {
         public Rectangle DrawRectangle { get; set; }
         public DateTime StartTime { get; set; }
         public TimeSpan Duration { get; set; }
         public PowerupConfig PowerupConfig { get; set; }
-        public Powerup(TopdownGame game, Vector2 position, Vector2 size, PowerupConfig powerupConfig)
+        public Powerup(MainGame game, Vector2 position, Vector2 size, PowerupConfig powerupConfig)
         {
             Game = game;
             PowerupConfig = powerupConfig;
@@ -76,16 +83,17 @@ namespace Topdown.Sprites
 
         public override void Update()
         {
+            //Remove when expired
             if (DateTime.Now > StartTime + Duration)
             {
-                TopdownGame.Sprites.Remove(this);
+                MainGame.Sprites.Remove(this);
             }
         }
 
         public override void Draw()
         {
             DrawRectangle = new Rectangle((int)Body.Position.X, (int)Body.Position.Y, DrawRectangle.Width, DrawRectangle.Height);
-            TopdownGame.SpriteBatch.Draw(Texture, DrawRectangle, Texture.Bounds, Color.White);
+            MainGame.SpriteBatch.Draw(Texture, DrawRectangle, Texture.Bounds, Color.White);
         }
 
         public override void Collisions()

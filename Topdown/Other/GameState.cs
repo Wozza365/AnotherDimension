@@ -1,5 +1,8 @@
-﻿namespace Topdown.Other
+﻿namespace Game.Other
 {
+    /// <summary>
+    /// Describes the current state which the game is in
+    /// </summary>
     public enum GameState
     {
         LOADING = 0,

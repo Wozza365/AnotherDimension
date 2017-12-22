@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Topdown.Physics;
-using Topdown.Sprites.Shapes;
+using Game.Physics;
+using Game.Sprites.Shapes;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    /// <summary>
+    /// In-game box, separate to the default Box shape
+    /// Uses circle for best compatibility across all different shapes
+    /// AABB against polygon collisions is not supported
+    /// </summary>
     public class Box : Polygon
     {
-        public Box(TopdownGame game, Texture2D tex, Vector2 position, float radius, Vector2 bounce, float friction, float gravityMultiplier = 1)
+        public Box(MainGame game, Texture2D tex, Vector2 position, float radius, Vector2 bounce, float friction, float gravityMultiplier = 1)
         {
             Game = game;
             Guid = new Guid();
@@ -35,10 +36,27 @@ namespace Topdown.Sprites
             };
         }
 
+        public override void Collisions()
+        {
+            Vector2 result = new Vector2();
+            float distance = 0;
+            foreach (var s in MainGame.Sprites)
+            {
+                if (s.SpriteType == SpriteTypes.PlatformerHero)
+                    continue;
+                if (s.SpriteType == SpriteTypes.CannonBall)
+                    continue;
+                if (s.SpriteType == SpriteTypes.Gem)
+                    continue;
+                if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
+                    World.Separate(Body, s.Body, ref result, ref distance);
+            }
+        }
+
         public override void Draw()
         {
-            TopdownGame.SpriteBatch.Draw(Texture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.White);
-            TopdownGame.SpriteBatch.Draw(Circle.DefaultTexture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.White);
+            MainGame.SpriteBatch.Draw(Texture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.White);
+            //MainGame.SpriteBatch.Draw(Circle.DefaultTexture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.White);
         }
     }
 }

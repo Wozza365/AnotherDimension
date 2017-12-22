@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>c:/users/kieran/source/repos/Topdown/Topdown/Content/spritesheet_players.png</SourceFile>
+  <SourceFile>E:/Git/Topdown/Topdown/Content/spritesheet_players.png</SourceFile>
   <SourceTime>2014-08-11T09:02:04+01:00</SourceTime>
-  <DestFile>c:/users/kieran/source/repos/Topdown/Topdown/Content/bin/Windows/spritesheet_players.xnb</DestFile>
-  <DestTime>2017-12-03T14:11:25.3566734+00:00</DestTime>
+  <DestFile>E:/Git/Topdown/Topdown/Content/bin/Windows/spritesheet_players.xnb</DestFile>
+  <DestTime>2017-12-19T19:59:49.2602655+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

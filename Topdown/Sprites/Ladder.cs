@@ -1,38 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Topdown.Physics;
-using Topdown.Sprites.Shapes;
+using Game.Physics;
+using Game.Sprites.Shapes;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    /// <summary>
+    /// Overrides the collisions method of a standard polygon, as player collides with it
+    /// Does not draw as it is drawn as part of the map
+    /// </summary>
     public class Ladder : Polygon
     {
-        public Ladder(TopdownGame game, List<Vector2> indices, Color colour, bool isStatic, Vector2 bounce, float gravityMultiplier = 1)
+        public Ladder(MainGame game, Vector2 position, Vector2 size, bool isStatic, Vector2 bounce, float gravityMultiplier = 1)
         {
             Guid = Guid.NewGuid();
             Game = game;
+            SpriteType = SpriteTypes.Ladder;
             Body = new Body(this)
             {
-                Indices = indices,
                 Gravity = World.Gravity * gravityMultiplier,
                 Bounce = bounce,
                 Enabled = true,
                 Velocity = Vector2.Zero,
-                Shape = Shape.Polygon,
+                Shape = Shape.Rectangle,
                 Static = isStatic,
                 Friction = 1.0f,
-                Position = indices[0],
+                Position = position,
+                Width = size.X,
+                Height = size.Y,
                 Guid = Guid
             };
-        }
-
-        public override void Draw()
-        {
-            
         }
 
         public override void Collisions()

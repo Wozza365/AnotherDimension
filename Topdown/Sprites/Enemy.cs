@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Topdown.AI;
-using Topdown.Misc;
-using Topdown.Other;
-using Topdown.Physics;
-using Topdown.Sprites.Shapes;
+using Game.AI;
+using Game.Misc;
+using Game.Physics;
+using Game.Sprites.Shapes;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    /// <summary>
+    /// An enemy for the topdown section
+    /// Controlled by an AI
+    /// Will target the player if its within range, but if not it will target a random 'wander node' on the map to walk to. This gives a zombie like effect
+    /// Uses an indirect state machine, when targeting the player, it will walk and turn much faster, compared to the wander state which is slower
+    /// </summary>
     public class Enemy : AISprite
     {
         public Dictionary<SpriteTypes, int> Targets = new Dictionary<SpriteTypes, int>();
@@ -18,7 +23,7 @@ namespace Topdown.Sprites
         public int Health { get; set; }
         public Vector2 FaceDirection { get; set; } = Vector2.UnitY;
 
-        public Enemy(TopdownGame game, Texture2D texture, Rectangle texRect, Vector2 position, Vector2 size, Vector2 bounce, float friction, float gravityMultiplier = 1)
+        public Enemy(MainGame game, Texture2D texture, Rectangle texRect, Vector2 position, Vector2 size, Vector2 bounce, float friction, float gravityMultiplier = 1)
         {
             //Standard setup of required properties
             Game = game;
@@ -44,19 +49,22 @@ namespace Topdown.Sprites
                 Shape = Shape.Circle,
                 Mass = 50
             };
-            Targets.Add(SpriteTypes.Hero, 100);
+            Targets.Add(SpriteTypes.TopdownHero, 100);
             Targets.Add(SpriteTypes.WanderNode, 1);
         }
 
+        /// <summary>
+        /// Generates the path to follow. Call this before allowing the game loop functions to execute
+        /// </summary>
         public void CreatePath()
         {
             //Get all of our targets, including the wander nodes
-            List<Sprite> spriteTargets = TopdownGame.Sprites.Where(x => Targets.Keys.Contains(x.SpriteType)).ToList();
-            List<WanderNode> wanderTargets = TopdownGame.WanderNodes;
+            List<Sprite> spriteTargets = MainGame.Sprites.Where(x => Targets.Keys.Contains(x.SpriteType)).ToList();
+            List<WanderNode> wanderTargets = MainGame.WanderNodes;
             wanderTargets.ForEach(x => spriteTargets.Add(x));
 
             //remove the player if they are far away and create a more friendly Target for each
-            spriteTargets.RemoveAll(x => x.SpriteType == SpriteTypes.Hero && Vector2.Distance(Body.Position, x.Body.Position) > 500);
+            spriteTargets.RemoveAll(x => x.SpriteType == SpriteTypes.TopdownHero && Vector2.Distance(Body.Position, x.Body.Position) > 500);
             List<Target> targets = spriteTargets.Select(x => new Target()
             {
                 Distance = Vector2.Distance(Body.Position, x.Body.Position),
@@ -64,7 +72,7 @@ namespace Topdown.Sprites
                 Weight = Targets.Where(y => y.Key == x.SpriteType).Select(y => y.Value).First(),
                 Sprite = x
             }).ToList();
-            
+
             //this line only really affects when hero is within range to put it top of the list
             targets = targets.OrderBy(x => (1 / x.Weight) * x.Distance).ToList();
             if (CurrentPath != null)
@@ -72,7 +80,7 @@ namespace Topdown.Sprites
             if (CurrentPath == null || CurrentPath.Nodes.Count <= 1)
             {
                 //Shuffle the list if the hero isnt in it
-                if (targets.All(x => x.SpriteType != SpriteTypes.Hero))
+                if (targets.All(x => x.SpriteType != SpriteTypes.TopdownHero))
                 {
                     //Effective method to shuffle a list
                     Random r = new Random();
@@ -87,6 +95,7 @@ namespace Topdown.Sprites
                 return; //at player, so sit around
             }
 
+            //Sets some of the AISprite properties
             TargetType = targets.First().Sprite.SpriteType;
             TargetSprite = targets.First().Sprite;
 
@@ -99,8 +108,8 @@ namespace Topdown.Sprites
         {
             if (!AtEnemy)
             {
-                //var direction = CurrentNode.Centre - Body.Position;
-                var direction = NextNode.Coordinate - CurrentNode.Coordinate;
+                var direction = NextNode.Centre - Body.Centre;
+                //var direction = NextNode.Coordinate - CurrentNode.Coordinate;
                 if (direction.X != 0 || direction.Y != 0)
                 {
                     direction.Normalize();
@@ -110,55 +119,62 @@ namespace Topdown.Sprites
                     direction = CurrentNode.Centre - Body.Centre;
                     direction.Normalize();
                 }
-                direction *= Body.MaxVelocity;
-                Body.Velocity = direction;
+                //divide direction by 4 which is essentially our "steering" factor. The smaller the new value, the less affect the steering has
+                //This creates a smoother looking path
+                Body.Velocity = Vector2.Normalize(Body.Velocity + (direction / 4)) * Body.MaxVelocity;
             }
             else
             {
-                
-                Body.Velocity = Vector2.Zero;
+                var direction = TargetSprite.Body.Centre - Body.Centre;
+                if (direction.X != 0 || direction.Y != 0)
+                {
+                    direction.Normalize();
+                    
+                    //Slightly higher direction change when close to the player to show its in a more active state
+                    Body.Velocity = Vector2.Normalize(Body.Velocity + (direction / 2)) * Body.MaxVelocity;
+                }
+                else
+                {
+                    Body.Velocity = Vector2.Zero;
+                }
             }
-
         }
 
         public override void Update()
         {
+            //Dead
             if (Health <= 0)
             {
-                TopdownGame.Sprites.Remove(this);
+                MainGame.Sprites.Remove(this);
                 return;
             }
 
-            Body.MaxVelocity = TargetType == SpriteTypes.Hero ? new Vector2(1.5f) : Vector2.One;
-           
-
-            if (TargetType == SpriteTypes.Hero && Vector2.Distance(Body.Centre, TargetSprite.Body.Centre) > 500)
-            {
-                CreatePath();
-                return;
-            }
-            else if (TargetType == SpriteTypes.Hero && Vector2.Distance(Body.Centre, TargetSprite.Body.Centre) < 500)
+            Body.MaxVelocity = TargetType == SpriteTypes.TopdownHero ? new Vector2(1.5f) : Vector2.One;
+            
+            //If hero has moved out of range then recalculate to a random wander node
+            if (TargetType == SpriteTypes.TopdownHero && Vector2.Distance(Body.Centre, TargetSprite.Body.Centre) > 500)
             {
                 CreatePath();
                 return;
             }
             CurrentNode.Coordinate = new Vector2((int)(Body.Centre.X / 40), (int)(Body.Centre.Y / 40));
-            if ((CurrentPath.Nodes.Count == 1 || CurrentPath.Nodes.Count == 0) && TargetType == SpriteTypes.Hero)
+            //Reached the enemy
+            if ((CurrentPath.Nodes.Count == 1 || CurrentPath.Nodes.Count == 0) && TargetType == SpriteTypes.TopdownHero)
             {
                 AtEnemy = true;
             }
-            else if (CurrentPath.Nodes.Count == 1)
+            else if (CurrentPath.Nodes.Count == 1 || CurrentPath.Nodes.Count == 0)
             {
                 CreatePath();
             }
             else if (CurrentPath.Nodes[0].Coordinate == CurrentNode.Coordinate)
             {
-                if ((Body.Centre - CurrentPath.Nodes[0].Centre).Length() < 1 && (Body.Centre - CurrentPath.Nodes[0].Centre).Length() > -1)
+                //uses a radius around the coordinate so that we don't need to directly hit the centre, allows for much smoother movement of corners.
+                if ((Body.Centre - CurrentPath.Nodes[0].Centre).Length() < 10 && (Body.Centre - CurrentPath.Nodes[0].Centre).Length() > -10)
                 {
                     CurrentPath.Nodes.RemoveAt(0);
                     if (CurrentPath.Nodes.Count >= 1) NextNode = CurrentPath.Nodes[0];
                 }
-                
             }
             else if (CurrentPath.Nodes.Count > 0)
             {
@@ -166,6 +182,7 @@ namespace Topdown.Sprites
             }
             else if (CurrentPath.Nodes[0].Coordinate != CurrentNode.Coordinate)
             {
+                //Gone off course so recalculate
                 CreatePath();
             }
             else
@@ -181,14 +198,15 @@ namespace Topdown.Sprites
                 FaceDirection = Body.Velocity;
                 FaceDirection.Normalize();
             }
-            
-            TopdownGame.SpriteBatch.Draw(Circle.DefaultTexture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.Yellow);
 
-            TopdownGame.SpriteBatch.Draw(Texture, new Rectangle((int)(Body.Position.X), (int)(Body.Centre.Y), (int)Body.Width, (int)Body.Height), TextureRect, Color.White, (float)Math.Atan2(FaceDirection.X, -FaceDirection.Y) - (float)(Math.PI/2), new Vector2(TextureRect.Width / 2, TextureRect.Height / 2), SpriteEffects.None, 0);
+            MainGame.SpriteBatch.Draw(Circle.DefaultTexture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.Yellow);
+
+            MainGame.SpriteBatch.Draw(Texture, new Rectangle((int)(Body.Left + Body.Radius), (int)(Body.Top + Body.Radius), (int)Body.Width, (int)Body.Height), TextureRect, Color.White, (float)Math.Atan2(FaceDirection.X, -FaceDirection.Y) - (float)(Math.PI / 2), new Vector2(TextureRect.Width / 2, TextureRect.Height / 2), SpriteEffects.None, 0);
         }
 
         public override void Collisions()
         {
+            
         }
     }
 }

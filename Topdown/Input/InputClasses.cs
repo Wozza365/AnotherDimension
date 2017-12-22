@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
-namespace Topdown.Input
+namespace Game.Input
 {
+    //Simple helper classes for testing input
+
     public class ControllerState
     {
         public bool DLeft { get; set; }
@@ -45,14 +42,5 @@ namespace Topdown.Input
         RightClick = 1,
         MiddleClick = 2,
         ScrollWheel = 3
-    }
-
-    public enum Align
-    {
-        Center,
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight
     }
 }

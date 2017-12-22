@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Topdown.Physics;
+using Game.Physics;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
     public enum BulletTypes
     {
@@ -11,6 +11,9 @@ namespace Topdown.Sprites
         Bullet = 2
     }
 
+    /// <summary>
+    /// Bullet config that carries various different stats for the bullet
+    /// </summary>
     public struct BulletConfig
     {
         public BulletTypes BulletType;
@@ -32,7 +35,10 @@ namespace Topdown.Sprites
             FireDelay = fireDelay;
         }
     }
-    
+
+    /// <summary>
+    /// A simple bullet that damages an enemy
+    /// </summary>
     public class Bullet : Sprite
     {
         public Rectangle DrawRectangle { get; set; }
@@ -45,7 +51,7 @@ namespace Topdown.Sprites
             DrawRectangle = config.DrawRectangle;
             SpriteType = SpriteTypes.Bullet;
             BulletConfig = config;
-            
+
             Body = new Body(this)
             {
                 MaxVelocity = new Vector2(config.MaxVelocity),
@@ -53,7 +59,7 @@ namespace Topdown.Sprites
                 Position = position,
                 Width = size.X,
                 Height = size.Y,
-                Radius = size.X/2,
+                Radius = size.X / 2,
                 Direction = direction,
                 Bounce = new Vector2(config.Bounce),
                 Shape = Shape.Circle,
@@ -64,21 +70,21 @@ namespace Topdown.Sprites
 
         public override void Control()
         {
-            
+
         }
 
         public override void Update()
         {
             if (Body.Velocity.Length() < 0.5f)
             {
-                TopdownGame.Sprites.Remove(this);
+                MainGame.Sprites.Remove(this);
             }
         }
 
         public override void Draw()
         {
             DrawRectangle = new Rectangle((int)Body.Position.X, (int)Body.Position.Y, DrawRectangle.Width, DrawRectangle.Height);
-            TopdownGame.SpriteBatch.Draw(Texture, DrawRectangle, TextureRect, Color.White/* (float)Math.Atan2(Body.Direction.X, -Body.Direction.Y), new Vector2(TextureRect.Width / 2 + Body.HalfWidth, TextureRect.Height / 2 + Body.HalfHeight), SpriteEffects.None, 0*/);
+            MainGame.SpriteBatch.Draw(Texture, DrawRectangle, TextureRect, Color.White/* (float)Math.Atan2(Body.Direction.X, -Body.Direction.Y), new Vector2(TextureRect.Width / 2 + Body.HalfWidth, TextureRect.Height / 2 + Body.HalfHeight), SpriteEffects.None, 0*/);
 
         }
 
@@ -86,16 +92,16 @@ namespace Topdown.Sprites
         {
             Vector2 result = new Vector2();
             float distance = 0;
-            foreach (var s in TopdownGame.Sprites)
+            foreach (var s in MainGame.Sprites)
             {
-                if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
+                if (s.SpriteType == SpriteTypes.Enemy)
                 {
-                    if (s.SpriteType == SpriteTypes.Enemy)
+                    if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
                     {
                         var speed = Body.Velocity.Length();
-                        ((Enemy) s).Health -= (int)(BulletConfig.InitialDamage * (speed / Body.MaxVelocity.X));
+                        ((Enemy)s).Health -= (int)(BulletConfig.InitialDamage * (speed / Body.MaxVelocity.X));
                         Body.Velocity = Vector2.Zero;
-                        //TopdownGame.Sprites.Remove(this);
+                        //MainGame.Sprites.Remove(this);
                     }
                 }
             }

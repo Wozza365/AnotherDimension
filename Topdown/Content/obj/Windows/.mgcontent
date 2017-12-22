@@ -20,5 +20,9 @@
     <File>E:/Git/Topdown/Topdown/Content/player.png</File>
     <File>E:/Git/Topdown/Topdown/Content/zombie.png</File>
     <File>E:/Git/Topdown/Topdown/Content/box.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/cannon.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/spritesheet_players.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/tilesheet_complete.png</File>
+    <File>E:/Git/Topdown/Topdown/Content/turbine.png</File>
   </SourceFiles>
 </SourceFileCollection>

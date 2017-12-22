@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Topdown.Physics;
-using Topdown.Sprites.Shapes;
+using Game.Physics;
+using Game.Sprites.Shapes;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    /// <summary>
+    /// Map piece used for the top down part, is mostly just a simple polygon, but ignores collisions with a few objects.
+    /// </summary>
     public class MapPiece : Polygon
     {
         public Color Colour { get; set; }
-        public MapPiece(TopdownGame game, List<Vector2> indices, Color colour, bool isStatic, Vector2 bounce, float friction = 1, float gravityMultiplier = 1)
+        public MapPiece(MainGame game, List<Vector2> vertices, Color colour, bool isStatic, Vector2 bounce, float friction = 1, float gravityMultiplier = 1)
         {
             Guid = Guid.NewGuid();
             Game = game;
             Colour = colour;
             Body = new Body(this)
             {
-                Indices = indices,
+                Vertices = vertices,
                 Gravity = World.Gravity * gravityMultiplier,
                 Bounce = bounce,
                 Enabled = true,
@@ -27,7 +27,7 @@ namespace Topdown.Sprites
                 Shape = Shape.Polygon,
                 Static = isStatic,
                 Friction = friction,
-                Position = indices[0],
+                Position = vertices[0],
                 Guid = Guid
             };
         }
@@ -36,7 +36,7 @@ namespace Topdown.Sprites
         {
             Vector2 result = new Vector2();
             float distance = 0;
-            foreach (var s in TopdownGame.Sprites)
+            foreach (var s in MainGame.Sprites)
             {
                 if (s.Body.Static)
                     continue;

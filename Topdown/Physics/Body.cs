@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Topdown;
 
-namespace Topdown.Physics
+namespace Game.Physics
 {
+    /// <summary>
+    /// The primary object used for Physics calculations
+    /// Line, Circle, AABB Rectangle and Polygon can be implemented through this class
+    /// Generally avoid using properties outside of the shapes scope. This will have unknown affects
+    /// </summary>
     public class Body
     {
         //Line Specific Properties
@@ -44,9 +46,13 @@ namespace Topdown.Physics
                 } 
                 if (Shape == Shape.Polygon)
                 {
-                    var x = Indices.Select(i => i.X).Average();
-                    var y = Indices.Select(i => i.Y).Average();
+                    var x = Vertices.Select(i => i.X).Average();
+                    var y = Vertices.Select(i => i.Y).Average();
                     return new Vector2(x, y);
+                }
+                if (Shape == Shape.Circle)
+                {
+                    return new Vector2(Position.X + HalfWidth, Position.Y + HalfHeight);
                 }
                 return Position;
             }
@@ -65,7 +71,7 @@ namespace Topdown.Physics
             {
                 if (Shape == Shape.Polygon)
                 {
-                    return Indices.OrderByDescending(x => x.X).First().X;
+                    return Vertices.OrderByDescending(x => x.X).First().X;
                 }
                 return Position.X + Width;
             }
@@ -77,7 +83,7 @@ namespace Topdown.Physics
             {
                 if (Shape == Shape.Polygon)
                 {
-                    return Indices.OrderByDescending(x => x.Y).First().Y;
+                    return Vertices.OrderByDescending(x => x.Y).First().Y;
                 }
                 return Position.Y + Height;
             }
@@ -89,7 +95,7 @@ namespace Topdown.Physics
             {
                 if (Shape == Shape.Polygon)
                 {
-                    return Indices.OrderBy(x => x.X).First().X;
+                    return Vertices.OrderBy(x => x.X).First().X;
                 }
                 return Position.X;
             }
@@ -101,7 +107,7 @@ namespace Topdown.Physics
             {
                 if (Shape == Shape.Polygon)
                 {
-                    return Indices.OrderBy(x => x.Y).First().Y;
+                    return Vertices.OrderBy(x => x.Y).First().Y;
                 }
                 return Position.Y;
             }
@@ -109,7 +115,7 @@ namespace Topdown.Physics
         #endregion
 
         //Polygon Specific Properties
-        public List<Vector2> Indices = new List<Vector2>();
+        public List<Vector2> Vertices = new List<Vector2>();
 
         //Physics Related Properties
         #region physics properties
@@ -131,12 +137,15 @@ namespace Topdown.Physics
         public float Rotation { get; set; } = 0;
         #endregion
 
-        public TopdownGame Game { get; set; }
+        // General Properties
+        #region general properties
+        public MainGame Game { get; set; }
         public Sprite Sprite { get; set; }
         public Guid Guid { get; set; }
         public bool Enabled { get; set; }
         public Shape Shape { get; set; }
         public bool Collisions { get; set; } = true;
+        #endregion
 
         /// <summary>
         /// Acts as half width for rectangle and radius for circle
@@ -148,6 +157,11 @@ namespace Topdown.Physics
         /// </summary>
         public float HalfHeight => Shape == Shape.Rectangle || Shape == Shape.Polygon ? Height / 2 : Radius;
 
+        /// <summary>
+        /// Only necessary values are set here 
+        /// Use object setting to set the values you require for the chosen shape
+        /// </summary>
+        /// <param name="s"></param>
         public Body(Sprite s)
         {
             Sprite = s;
@@ -155,15 +169,20 @@ namespace Topdown.Physics
             Gravity = World.Gravity;
         }
 
-        public void UpdateIndices(float deltaX, float deltaY)
+        /// <summary>
+        /// Can be called foreach shape but is only for updating polygons
+        /// </summary>
+        /// <param name="deltaX">change in X</param>
+        /// <param name="deltaY">change in Y</param>
+        public void UpdateVertices(float deltaX, float deltaY)
         {
             if (Shape == Shape.Polygon)
             {
-                for (var i = 0; i < Indices.Count; i++)
+                for (var i = 0; i < Vertices.Count; i++)
                 {
-                    var x = Indices[i].X + deltaX;
-                    var y = Indices[i].Y + deltaY;
-                    //Indices[i] = new Vector2(x, y);
+                    var x = Vertices[i].X + deltaX;
+                    var y = Vertices[i].Y + deltaY;
+                    //Vertices[i] = new Vector2(x, y);
                     float s = (float)Math.Sin(AngularVelocity);
                     float c = (float)Math.Cos(AngularVelocity);
 
@@ -178,7 +197,7 @@ namespace Topdown.Physics
                     // translate point back:
                     x = xnew + Centre.X;
                     y = ynew + Centre.Y;
-                    Indices[i] = new Vector2(x, y);
+                    Vertices[i] = new Vector2(x, y);
                 }
             }
         }

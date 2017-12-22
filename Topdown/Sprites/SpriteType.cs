@@ -1,6 +1,8 @@
-﻿namespace Topdown.Sprites
+﻿namespace Game.Sprites
 {
-    //Identifier for types of sprites
+    /// <summary>
+    /// Identifier for types of sprites
+    /// </summary>
     public enum SpriteTypes
     {
         Cicle = 0,
@@ -13,6 +15,14 @@
         WanderNode = 7,
         Bullet = 8,
         Powerup = 9,
-        Box = 10
+        Ladder = 10,
+        Gem = 11,
+        CannonBall = 12,
+        Cannon = 13,
+        Lever = 14,
+        Platform = 15,
+        Box = 16,
+        TopdownHero = 17,
+        PlatformerHero = 18
     }
 }

@@ -1,44 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Topdown.Physics;
+using Microsoft.Xna.Framework.Graphics;
+using Game.Physics;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    /// <summary>
+    /// In-game object for teleporting between dimensions
+    /// </summary>
     public class Portal : Sprite
     {
-        public Portal(Vector2 position, Vector2 size)
+        public bool Activated { get; set; }
+        public Portal(MainGame game, Texture2D tex, Rectangle texRect, Vector2 position, Vector2 size)
         {
+            Game = game;
+            Texture = tex;
+            TextureRect = texRect;
+            Activated = false;
+            Guid = Guid.NewGuid();
+            SpriteType = SpriteTypes.Portal;
+
             Body = new Body(this)
             {
+                Gravity = Vector2.Zero,
+                Bounce = Vector2.One,
+                Mass = float.MaxValue,
+                Enabled = false,
+                Shape = Shape.Rectangle,
                 Position = position,
                 Width = size.X,
                 Height = size.Y,
-                Shape = Shape.Circle,
-                Radius = size.X/2
+                Static = true,
+                Friction = 0.8f,
+                Guid = Guid
             };
-            SpriteType = SpriteTypes.Portal;
         }
-
         public override void Control()
         {
-            
+
         }
 
         public override void Update()
         {
+
         }
 
         public override void Draw()
         {
+            if (Activated)
+            {
+                MainGame.SpriteBatch.Draw(Texture, new Rectangle((int)(Body.Position.X), (int)(Body.Position.Y), (int)Body.Width, (int)Body.Height), TextureRect, Color.White);
+            }
         }
 
         public override void Collisions()
         {
-            
+
         }
     }
 }

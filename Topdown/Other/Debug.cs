@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Topdown.Sprites.Shapes;
+using Game.Sprites.Shapes;
 
-namespace Topdown.Other
+namespace Game.Other
 {
+    /// <summary>
+    /// Debug class to draw lines, dots and text to the screen to aid in debugging
+    /// </summary>
     public static class Debug
     {
         private static List<Tuple<string, DateTime>> _textList = new List<Tuple<string, DateTime>>();
@@ -21,6 +23,13 @@ namespace Topdown.Other
             _textList.Add(new Tuple<string, DateTime>(s, DateTime.Now));
         }
 
+        /// <summary>
+        /// Update called once per frame
+        /// Should be at the end to ensure it's not overwritten by other graphics
+        /// </summary>
+        /// <param name="sb">SpriteBatch used for drawing lines</param>
+        /// <param name="sf">SpriteFont used for text</param>
+        /// <param name="whitePixel">A texture of a single white pixel, used to draw lines</param>
         public static void Update(SpriteBatch sb, SpriteFont sf, Texture2D whitePixel)
         {
             if (Active)
@@ -71,6 +80,11 @@ namespace Topdown.Other
             }
         }
 
+        /// <summary>
+        /// Add a single point on the map 2x2 pixels in size
+        /// </summary>
+        /// <param name="v">The position at which to draw</param>
+        /// <param name="c">The colour of the point</param>
         public static void AddPoint(Vector2 v, Color c)
         {
             _dotsList.Add(new Dot
@@ -81,6 +95,12 @@ namespace Topdown.Other
             });
         }
 
+        /// <summary>
+        /// Adds a new line for debugging
+        /// </summary>
+        /// <param name="point">Start point</param>
+        /// <param name="point2">End point</param>
+        /// <param name="delay">Manual expire time for the line to disappear</param>
         public static void AddLine(Vector2 point, Vector2 point2, int delay)
         {
             _lineList.Add(new DebugLine()

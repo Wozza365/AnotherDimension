@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Topdown.Physics;
+using Game.Physics;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    /// <summary>
+    /// A simple node on the map
+    /// Used for zombies to have a target to casually wander to
+    /// </summary>
     public class WanderNode : Sprite
     {
         public Vector2 Coordinate { get; set; }
 
-        public WanderNode(TopdownGame game, Vector2 position, Vector2 size)
+        public WanderNode(MainGame game, Vector2 position, Vector2 size)
         {
             Game = game;
             Guid = new Guid();

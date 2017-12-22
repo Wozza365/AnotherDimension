@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Topdown
+namespace Game
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -14,7 +14,7 @@ namespace Topdown
         [STAThread]
         static void Main()
         {
-            using (var game = new TopdownGame())
+            using (var game = new MainGame())
                 game.Run();
         }
     }

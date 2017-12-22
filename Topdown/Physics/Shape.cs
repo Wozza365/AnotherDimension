@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Topdown.Physics
+﻿namespace Game.Physics
 {
+    /// <summary>
+    /// Supported shapes used for the Body class
+    /// </summary>
     public enum Shape
     {
         Circle,

@@ -2,8 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Topdown.Input
+namespace Game.Input
 {
+    /// <summary>
+    /// Helper class for input to make interfacing with the monogame input framework a little bit more pleasant
+    /// Adds stuff like previous states to tell if a button is pressed once, held etc.
+    /// </summary>
+    
     public static class InputManager
     {
         public static ControllerState[] CurrentControllerState = new ControllerState[4];
@@ -15,6 +20,7 @@ namespace Topdown.Input
         public static MouseState PreviousMouseState;
 
         public static object Game { get; set; }
+
 
         public static void CheckInputs()
         {

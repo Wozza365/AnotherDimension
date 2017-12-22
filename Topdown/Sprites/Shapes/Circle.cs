@@ -1,16 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Topdown.Input;
-using Topdown.Other;
-using Topdown.Physics;
+using Game.Other;
+using Game.Physics;
 
-namespace Topdown.Sprites.Shapes
+namespace Game.Sprites.Shapes
 {
+    /// <summary>
+    /// Default circle sprite, collides with everything and draws a default outline
+    /// </summary>
     public class Circle : Sprite
     {
         public static Texture2D DefaultTexture { get; set; }
-        public Circle(TopdownGame game, Vector2 centre, float radius, float mass, bool isStatic, Vector2 bounce, float gravityMultiplier = 1)
+        public Circle(MainGame game, Vector2 centre, float radius, float mass, bool isStatic, Vector2 bounce, float gravityMultiplier = 1)
         {
             Game = game;
             Body = new Body(this)
@@ -33,7 +34,7 @@ namespace Topdown.Sprites.Shapes
         {
             Vector2 result = new Vector2();
             float distance = 0;
-            foreach (var s in TopdownGame.Sprites)
+            foreach (var s in MainGame.Sprites)
             {
                 if (!s.Equals(this) && World.Intersects(Body, s.Body, ref result, ref distance))
                     World.Separate(Body, s.Body, ref result, ref distance);
@@ -42,26 +43,14 @@ namespace Topdown.Sprites.Shapes
 
         public override void Control()
         {
-            if (InputManager.Held(Keys.A))
-            {
-                Body.Velocity.X--;
-            }
-            if (InputManager.Held(Keys.D))
-            {
-                Body.Velocity.X++;
-            }
-            if (InputManager.Pressed(Keys.Space))
-            {
-                Body.Velocity.Y -= 20;
-                //OnGround = false;
-            }
+
         }
 
         public override void Draw()
         {
             if (Debug.Active)
             {
-                TopdownGame.SpriteBatch.Draw(DefaultTexture, new Microsoft.Xna.Framework.Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.Yellow);
+                MainGame.SpriteBatch.Draw(DefaultTexture, new Rectangle((int)(Body.Centre.X - Body.Radius), (int)(Body.Centre.Y - Body.Radius), (int)Body.Width, (int)Body.Width), Color.Yellow);
             }
         }
 

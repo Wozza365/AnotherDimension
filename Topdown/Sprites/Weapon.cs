@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Topdown.Sprites
+﻿namespace Game.Sprites
 {
+    /// <summary>
+    /// Weapon types
+    /// </summary>
     public enum WeaponTypes
     {
         RPG = 0,
         SMG = 1,
         Pistol = 2
     }
-    
+
+    /// <summary>
+    /// Information on the current weapon
+    /// </summary>
     public class Weapon
     {
         public WeaponTypes Type { get; set; }

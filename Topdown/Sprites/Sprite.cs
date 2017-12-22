@@ -2,14 +2,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Topdown.Physics;
-using Topdown.Sprites;
+using Game.Physics;
+using Game.Sprites;
 
-namespace Topdown
+namespace Game
 {
+    /// <summary>
+    /// Base Sprite class, every sprite should inherit this class
+    /// </summary>
     public abstract class Sprite
     {
-        public TopdownGame Game { get; set; }
+        public MainGame Game { get; set; }
         public Body Body { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle TextureRect { get; set; }

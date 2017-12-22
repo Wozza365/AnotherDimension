@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Topdown.AI;
+﻿using Game.AI;
 
-namespace Topdown.Sprites
+namespace Game.Sprites
 {
+    //An extra layer used for sprites controlled by the AStar algorithm
+    //Has a target, path etc
     public abstract class AISprite : Sprite
     {
         public Path CurrentPath { get; set; }
