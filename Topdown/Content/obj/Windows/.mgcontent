@@ -4,25 +4,25 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>E:/Git/Topdown/Topdown/Content/circle.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/Font.spritefont</File>
-    <File>E:/Git/Topdown/Topdown/Content/Controls.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/background0.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/spritesheet_characters.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/spritesheet_tiles.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/panzerfaust.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/revolver.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/uzi.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/bulleta.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/rocket.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/health.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/speed.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/player.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/zombie.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/box.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/cannon.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/spritesheet_players.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/tilesheet_complete.png</File>
-    <File>E:/Git/Topdown/Topdown/Content/turbine.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/circle.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/Font.spritefont</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/Controls.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/background0.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/spritesheet_characters.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/spritesheet_tiles.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/panzerfaust.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/revolver.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/uzi.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/bulleta.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/rocket.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/health.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/speed.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/player.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/zombie.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/box.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/cannon.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/spritesheet_players.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/tilesheet_complete.png</File>
+    <File>E:/Git/AnotherDimension/Topdown/Content/turbine.png</File>
   </SourceFiles>
 </SourceFileCollection>

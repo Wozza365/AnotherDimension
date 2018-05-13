@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>E:/Git/Topdown/Topdown/Content/zombie.png</SourceFile>
-  <SourceTime>2017-12-12T12:10:00.2017772+00:00</SourceTime>
-  <DestFile>E:/Git/Topdown/Topdown/Content/bin/Windows/zombie.xnb</DestFile>
-  <DestTime>2017-12-12T12:13:42.5458005+00:00</DestTime>
+  <SourceFile>E:/Git/AnotherDimension/Topdown/Content/zombie.png</SourceFile>
+  <SourceTime>2018-05-13T08:00:47.4841645+01:00</SourceTime>
+  <DestFile>E:/Git/AnotherDimension/Topdown/Content/bin/Windows/zombie.xnb</DestFile>
+  <DestTime>2018-05-13T08:01:40.2267982+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

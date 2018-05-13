@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>E:/Git/Topdown/Topdown/Content/Font.spritefont</SourceFile>
-  <SourceTime>2017-11-22T12:51:29.1458969+00:00</SourceTime>
-  <DestFile>E:/Git/Topdown/Topdown/Content/bin/Windows/Font.xnb</DestFile>
-  <DestTime>2017-12-12T10:04:01.8545432+00:00</DestTime>
+  <SourceFile>E:/Git/AnotherDimension/Topdown/Content/Font.spritefont</SourceFile>
+  <SourceTime>2018-05-13T08:00:45.7549389+01:00</SourceTime>
+  <DestFile>E:/Git/AnotherDimension/Topdown/Content/bin/Windows/Font.xnb</DestFile>
+  <DestTime>2018-05-13T08:01:37.7395007+01:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>
