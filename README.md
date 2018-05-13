@@ -15,3 +15,4 @@ Features include:
  - Topdown and platforming sections
  - Shooting mechanics with 3 weapons
  - Projectiles, ladders and external forces such as fans
+ - Potentially unlimited maps with full support for maps built with Tiled
